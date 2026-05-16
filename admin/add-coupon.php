@@ -17,9 +17,6 @@
                 Draft</button>
             <button type="button" class="btn btn-main rounded-pill py-9" id="publishCouponBtn">Publish Course</button>
 
-
-
-
         </div>
     </div>
 

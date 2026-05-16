@@ -20,9 +20,9 @@
                         </h4>
 
                         <div class="d-flex gap-3 mt-3">
-                            <a href="#" class="slider-caption-04__btn btn btn-orange rounded-button">View All
+                            <a href="course.php" class="slider-caption-04__btn btn btn-orange rounded-button">View All
                                 Courses</a>
-                            <a href="#" class="slider-caption-04__btn btn btn-orangee rounded-button">Enroll Now</a>
+                            <a href="contact-us.php" class="slider-caption-04__btn btn btn-orangee rounded-button">Connect us</a>
                         </div>
                     </div>
 

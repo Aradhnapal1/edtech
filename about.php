@@ -11,7 +11,7 @@
                     <!-- Page Breadcrumb Start -->
                     <div class="page-breadcrumb">
                         <ul class="breadcrumb breadcrumb-white">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                             <li class="breadcrumb-item active">About us</li>
                         </ul>
                     </div>

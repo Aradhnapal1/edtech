@@ -98,14 +98,14 @@
                </div>
                <div class="archive-filter-bar">
                   <div class="filter-bar-wrapper">
-                     <span>See</span>
+                     <!-- <span>See</span> -->
                      <ul class="nav">
                         <li><button class="active" data-bs-toggle="tab" data-bs-target="#grid"><i
                                  class="fas fa-th"></i></button></li>
                         <li><button data-bs-toggle="tab" data-bs-target="#list"><i class="fas fa-bars"></i></button>
                         </li>
                      </ul>
-                     <button class="btn btn-light btn-hover-primary course-filter-toggle d-lg-none" type="button"
+                     <button class=" btn-light btn-hover-primary course-filter-toggle d-lg-none" type="button"
                         data-bs-toggle="offcanvas" data-bs-target="#courseFilterDrawer"
                         aria-controls="courseFilterDrawer">
                         <i class="fas fa-filter"></i>
