@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCA Project Report: EdTech Platform</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .document-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px 80px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 { font-size: 2.5em; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { font-size: 1.8em; margin-top: 40px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        h3 { font-size: 1.4em; margin-top: 30px; color: #2980b9; }
+        p, li { font-size: 12pt; text-align: justify; }
+        
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+        table, th, td {
+            border: 1px solid #bdc3c7;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        /* Screenshot Placeholders */
+        .screenshot-box {
+            border: 2px dashed #7f8c8d;
+            background-color: #f8f9fa;
+            padding: 80px 20px;
+            text-align: center;
+            margin: 30px 0;
+            color: #7f8c8d;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-radius: 5px;
+        }
+
+        /* Code Snippet Styles */
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11pt;
+        }
+
+        /* Cover Page Styles */
+        .cover-page {
+            text-align: center;
+            padding-top: 100px;
+            height: 800px;
+        }
+        .cover-page h1 { border: none; font-size: 3.5em; margin-bottom: 10px; color: #2c3e50; }
+        .cover-page h2 { border: none; font-size: 1.8em; font-weight: normal; color: #7f8c8d; margin-top: 0; }
+        .cover-details {
+            margin-top: 150px;
+            text-align: left;
+            display: inline-block;
+            font-size: 1.2em;
+            width: 100%;
+        }
+        .submitted-by, .submitted-to { width: 48%; display: inline-block; vertical-align: top; }
+        .submitted-to { text-align: right; }
+
+        /* Print Button */
+        .btn-print {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            z-index: 1000;
+        }
+        .btn-print:hover { background-color: #c0392b; transform: translateY(-2px); }
+
+        /* Print CSS */
+        @media print {
+            @page {
+                margin: 0; /* This removes the default browser URL and Date from PDF footer/header */
+            }
+            body { background: white; margin: 0; padding: 20mm; }
+            .document-container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; }
+            .btn-print { display: none; }
+            .page-break { page-break-before: always; }
+            .screenshot-box { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-print" onclick="window.print()">🖨️ Download / Save as PDF</button>
+
+    <div class="document-container">
+        
+        <!-- Cover Page -->
+        <div class="cover-page">
+            <h2>A Project Report On</h2>
+            <h1>EdTech Learning Management System</h1>
+            <p>Submitted in partial fulfillment of the requirements for the degree of <br><strong>Master of Computer Applications (MCA)</strong></p>
+            
+            <div class="cover-details">
+                <div class="submitted-by">
+                    <strong>Submitted By:</strong><br>
+                    [Your Name Here]<br>
+                    Enrollment No: [Your Roll No]<br>
+                    MCA Semester: [Your Semester]
+                </div>
+                <div class="submitted-to">
+                    <strong>Submitted To:</strong><br>
+                    [Professor / Guide Name]<br>
+                    [Designation]<br>
+                    [University / College Name]
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Index / Table of Contents -->
+        <h2>Table of Contents (Index)</h2>
+        <table>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Description</th>
+                <th>Page No.</th>
+            </tr>
+            <tr><td>1</td><td>Introduction to the Project</td><td>3</td></tr>
+            <tr><td>2</td><td>Real-World Utility of an EdTech Website</td><td>4</td></tr>
+            <tr><td>3</td><td>Target Audience and Profit Analysis</td><td>5</td></tr>
+            <tr><td>4</td><td>Hardware & Software Requirements</td><td>6</td></tr>
+            <tr><td>5</td><td>Technology Stack (.NET & Database)</td><td>7</td></tr>
+            <tr><td>6</td><td>System Architecture & Data Flow</td><td>8</td></tr>
+            <tr><td>7</td><td>User Authentication & Security Module</td><td>9</td></tr>
+            <tr><td>8</td><td>Course Catalog & Dynamic Filtering</td><td>10</td></tr>
+            <tr><td>9</td><td>Shopping Cart & Coupon Management</td><td>12</td></tr>
+            <tr><td>10</td><td>Payment Gateway Integration (Razorpay)</td><td>14</td></tr>
+            <tr><td>11</td><td>Student Dashboard & Live Class Integration</td><td>16</td></tr>
+            <tr><td>12</td><td>Admin Panel: User & Course Management</td><td>18</td></tr>
+            <tr><td>13</td><td>Admin Panel: Order & Coupon Management</td><td>20</td></tr>
+            <tr><td>14</td><td>Core Coding Implementation (HTML, CSS, JS, .NET)</td><td>22</td></tr>
+            <tr><td>15</td><td>User Interface Walkthrough (Main Page & Admin Dashboard)</td><td>24</td></tr>
+            <tr><td>16</td><td>Software Testing & Quality Assurance</td><td>26</td></tr>
+            <tr><td>17</td><td>Conclusion & Future Enhancements</td><td>28</td></tr>
+        </table>
+
+        <div class="page-break"></div>
+
+        <!-- Section 1 -->
+        <h2>1. Introduction to the Project</h2>
+        <p>The primary objective of this project is to develop a highly scalable and comprehensive Learning Management System (LMS) specifically designed to facilitate seamless online education. In a world where geographical boundaries no longer limit the pursuit of knowledge, this platform serves as a vital bridge between expert instructors and eager students. By providing a centralized, interactive hub, the system empowers learners to discover, purchase, and seamlessly manage a wide array of educational courses from the comfort of their homes.</p>
+        
+        <p>In the post-pandemic era, the educational landscape has undergone a massive paradigm shift. Digital learning has rapidly evolved from being a mere luxury to an absolute necessity. Traditional classroom models are increasingly being supplemented—and in many cases, replaced—by online platforms that offer 24/7 accessibility, self-paced learning, and interactive virtual environments. This project is meticulously engineered to simulate the robust architecture and business model of real-world, industry-leading EdTech companies like Udemy or Coursera.</p>
+
+        <p>To ensure a professional and secure user experience, the platform integrates several advanced technical functionalities:</p>
+        <ul>
+            <li><strong>Robust Security & Authentication:</strong> Utilizing JSON Web Tokens (JWT) to ensure that user sessions, data profiles, and course materials remain strictly protected against unauthorized access.</li>
+            <li><strong>Dynamic Course Catalog:</strong> An intuitive, user-friendly interface featuring advanced search and filtering capabilities (by category, language, and price), ensuring students can easily find exactly what they want to learn.</li>
+            <li><strong>E-Commerce & Cart Management:</strong> A fully functional shopping cart system integrated with a dynamic Discount Coupon engine, allowing administrators to run promotional campaigns and students to avail themselves of flat or percentage-based discounts.</li>
+            <li><strong>Secure Payment Gateway:</strong> Seamless integration with the Razorpay API to process real-time financial transactions securely, simulating a live commercial environment.</li>
+            <li><strong>Specialized Administrative Panels:</strong> A powerful backend control center that gives platform owners complete authority to monitor sales, manage student enrollments, upload new course content, and configure promotional coupons efficiently.</li>
+        </ul>
+        <p>Ultimately, this project stands as a complete, end-to-end software solution that demonstrates the integration of modern frontend user interfaces with secure, reliable backend business logic and database management.</p>
+
+        <div class="page-break"></div>
+
+        <!-- Section 2 -->
+        <h2>2. Real-World Utility of an EdTech Website</h2>
+        <p>A Course Website or EdTech platform has massive real-world applications. It completely transforms the traditional educational ecosystem and corporate training environments in the following ways:</p>
+        <ul>
+            <li><strong>Geographical Independence & Accessibility:</strong> Students living in remote areas or developing nations can access top-tier education and lectures from elite professors without the financial burden of relocating. This democratizes education on a global scale.</li>
+            <li><strong>Flexible, Self-Paced Learning:</strong> Pre-recorded video courses allow students to learn at their own pace, pausing, rewinding, and re-watching complex topics as many times as necessary to ensure complete understanding.</li>
+            <li><strong>Live Class & Hybrid Integration:</strong> Unlike static tutorial websites, this platform supports dynamic live batches. Instructors can schedule real-time doubt-clearing sessions, integrating directly with tools like Zoom and Google Meet.</li>
+            <li><strong>Centralized Academic Repository:</strong> All educational materials—such as study notes, PDF assignments, video recordings, and meeting links—are securely stored within the student's personalized dashboard, ensuring materials are never lost or misplaced.</li>
+            <li><strong>Corporate Upskilling:</strong> Beyond schools and colleges, real-world corporations use similar LMS platforms to train their employees on new technologies, track their progress, and ensure compliance through internal certification programs.</li>
+        </ul>
+
+        <div class="page-break"></div>
+
+        <!-- Section 3 -->
+        <h2>3. Target Audience and Profit Analysis</h2>
+        <p>An EdTech platform operates on a highly lucrative, scalable business model that provides mutual financial and educational benefits to all parties involved. The system is designed to maximize Return on Investment (ROI) while minimizing operational overhead.</p>
+        
+        <h3>👨‍🎓 Profit for Students:</h3>
+        <p>Students benefit from heavily discounted courses compared to the exorbitant fees charged by traditional offline coaching institutes. By learning online, they save significantly on commuting time, fuel, and accommodation costs. Furthermore, they gain lifetime access to high-quality course materials. The custom Promo/Coupon System implemented in this project further reduces their financial burden by allowing them to apply special discounts during checkout.</p>
+        
+        <h3>👨‍🏫 Profit for Teachers/Instructors:</h3>
+        <p>For educators, this platform is a powerful tool for generating <strong>passive income</strong>. A teacher records and structures a course only once, but that same digital asset can be sold to an infinite number of students globally. The platform automates tedious administrative tasks such as fee collection, receipt generation, and student enrollment. This means the instructor only needs to focus on content creation and teaching, rather than administrative overhead.</p>
+        
+        <h3>🏢 Profit for Platform Owner (Admin):</h3>
+        <p>The platform owner operates as the marketplace facilitator and generates revenue through a scalable commission-based model. For every course sold by an independent instructor, the platform automatically retains a predefined percentage (e.g., 20%-30%) as a platform hosting fee. Additionally, the administrator has the ability to launch premium "Platform Exclusive" subscription batches, creating a highly profitable recurring revenue stream with profit margins nearing 90% after basic server and API costs are covered.</p>
+
+        <div class="page-break"></div>
+
+        <!-- Section 4 -->
+        <h2>4. Hardware & Software Requirements</h2>
+        <p>To successfully develop, compile, and run this full-stack EdTech application, specific hardware and software configurations are required.</p>
+        <h3>Hardware Requirements:</h3>
+        <ul>
+            <li><strong>Processor:</strong> Minimum Intel Core i3 / AMD Ryzen 3 (Core i5 or higher recommended for fast compilation of .NET binaries).</li>
+            <li><strong>RAM:</strong> 4 GB minimum (8 GB or 16 GB highly recommended to run heavy IDEs like Visual Studio and local Database servers simultaneously without lagging).</li>
+            <li><strong>Storage:</strong> 256 GB Solid State Drive (SSD) for rapid read/write operations during local development and testing.</li>
+            <li><strong>Network:</strong> A stable broadband internet connection for downloading NuGet packages, NPM modules, and testing third-party APIs (like Razorpay).</li>
+        </ul>
+        <h3>Software Requirements:</h3>
+        <ul>
+            <li><strong>Frontend Code Editor:</strong> Visual Studio Code (VS Code) equipped with extensions like Live Server and Prettier for editing HTML, CSS, and JS files.</li>
+            <li><strong>Backend IDE:</strong> Microsoft Visual Studio 2022 (Community or Enterprise edition) to write, compile, and debug the .NET Core Web API.</li>
+            <li><strong>Local Hosting:</strong> XAMPP Server (Apache) to serve the static frontend files during local testing on `localhost`.</li>
+            <li><strong>Web Browser:</strong> Google Chrome or Mozilla Firefox, utilizing the built-in Developer Tools (F12) for debugging asynchronous JavaScript payloads and inspecting DOM elements.</li>
+            <li><strong>API Testing Tool:</strong> Postman workspace for verifying REST API endpoints, passing Bearer tokens, and testing JSON request/response formats before frontend integration.</li>
+        </ul>
+
+        <div class="page-break"></div>
+
+        <!-- Section 5 -->
+        <h2>5. Technology Stack (.NET & Database)</h2>
+        <p>This project was engineered using a highly robust, decoupled architecture that strictly separates the presentation layer (Frontend) from the business logic and data access layer (Backend). This modular approach ensures that the application is scalable, maintainable, and highly secure.</p>
+        
+        <h3>Frontend Technologies:</h3>
+        <p>The user interface is entirely custom-coded. The skeletal structure of every page (Home, Dashboard, Cart, Admin Panel) is crafted using semantic <strong>HTML5</strong>. To ensure the application looks visually appealing and functions perfectly across all device sizes (Mobile, Tablet, Desktop), advanced <strong>CSS3</strong> techniques including Flexbox, CSS Grid, and the <strong>Bootstrap</strong> framework were utilized.</p>
+        <p>All dynamic interactions—such as adding items to the cart, applying discount algorithms, and validating user inputs—are handled by vanilla <strong>JavaScript (ES6+)</strong>. The frontend heavily relies on the modern `fetch()` API combined with `async/await` syntax to communicate with the backend asynchronously without forcing page reloads.</p>
+        
+        <h3>Backend Technologies (.NET Framework):</h3>
+        <p>The core engine driving this platform, protecting user data, and serving API endpoints (`https://edtech.colaborazia.com/api/...`) is built upon the highly secure <strong>Microsoft .NET Framework (C#) / ASP.NET Core Web API</strong>. .NET was specifically chosen over lightweight frameworks like Node.js because of its enterprise-grade security, rapid compiled execution speed, and strict object-oriented typing. The .NET backend is responsible for verifying Razorpay payment signatures, generating cryptographic JWT tokens, and enforcing Role-Based Access Control (RBAC) ensuring students cannot access admin privileges.</p>
+        
+        <h3>Database Management:</h3>
+        <p>A highly normalized relational database system, utilizing <strong>Microsoft SQL Server</strong> (or MySQL), serves as the persistent backend storage. The database maintains complex relational schemas, carefully mapping Users to their specific Orders, Orders to specific Courses, and tracking Coupon usage limits. The .NET backend communicates with the database using <strong>Entity Framework Core (ORM)</strong> and LINQ queries, which abstract raw SQL queries and actively prevent severe security vulnerabilities like SQL Injection attacks.</p>
+
+        <div class="page-break"></div>
+
+        <!-- Section 6 -->
+        <h2>6. System Architecture & Data Flow</h2>
+        <p>The application strictly adheres to a decoupled Client-Server RESTful architecture. The HTML/JS frontend acts purely as a presentation client, completely ignorant of the database structure. It fetches and posts lightweight JSON payloads to and from the .NET Web API endpoints.</p>
+        <p><strong>The Data Flow Life Cycle:</strong></p>
+        <ol>
+            <li><strong>Client Request:</strong> When a user navigates to the "All Courses" page, the JavaScript `fetch()` method makes an asynchronous HTTP GET request to the `/api/admin/all-courses` endpoint.</li>
+            <li><strong>Server Processing:</strong> The .NET Kestrel server receives the request, routes it to the appropriate Course Controller, and uses Entity Framework to query the SQL Database.</li>
+            <li><strong>Data Serialization:</strong> The .NET server retrieves the raw data, strips out sensitive database IDs, serializes the course records into a clean, secure JSON object, and transmits it back to the browser with a 200 OK status code.</li>
+            <li><strong>DOM Manipulation:</strong> The JavaScript client receives the JSON payload, loops through the array using array methods like `.forEach()`, and dynamically injects HTML template literals into the DOM, rendering beautiful Course Cards on the user's screen.</li>
+        </ol>
+
+
+        <div class="page-break"></div>
+
+        <!-- Section 7 -->
+        <h2>7. User Authentication & Security Module</h2>
+        <p>Modern web security standards demand stateless authentication. Therefore, the authentication module securely identifies users and manages their sessions without relying on vulnerable, stateful server-side session cookies. The frontend implementation of this is meticulously handled in `authUser.js`.</p>
+        
+        <h3>JWT (JSON Web Token) Logic:</h3>
+        <p>When a user successfully submits their email and password, the .NET backend verifies the hashed password against the database. Upon success, the server cryptographically signs and returns a **JWT (JSON Web Token)**. This token contains a secure payload detailing the user's identity, expiration time, and role (User/Admin).</p>
+        <p>The JavaScript application captures this token and securely stores it in the browser's `localStorage`. To optimize performance, we implemented a custom Base64 decoding algorithm within the frontend JavaScript. This allows the browser to instantly read the user's name directly from the token's payload, dynamically updating the Header UI to say "Welcome, [Name]" instantly without needing to make a secondary API call to the server.</p>
+        <pre>
+// Decoding JWT Token Logic (JavaScript)
+function decodeJWT(token) {
+    const parts = token.split('.');
+    const payload = parts[1];
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+        </pre>
+        <div class="screenshot-box">
+            <img src="./mca/1.png" alt="Login / Register Modal" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 8 -->
+        <h2>8. Course Catalog & Dynamic Filtering</h2>
+        <p>The central hub of the LMS is the Course Catalog, powered primarily by `get-all-course.js`. Instead of static HTML pages, the catalog dynamically constructs itself by mapping JSON data fetched from the .NET backend API into beautifully styled Grid and List views.</p>
+        <p>To provide a premium User Experience (UX) similar to industry giants, a highly complex **Dynamic Filtering Engine** was engineered. Students can check multiple boxes to filter courses by specific Categories (e.g., Programming, Arts) and Languages (e.g., English, Hindi) simultaneously.</p>
+        <p>The JavaScript logic intercepts these checkbox events, grabs their `data-id` attributes, and constructs a dynamic URL Query String (for example, `?categoryIds=1,2&languageIds=3`). The .NET backend reads this string and filters the SQL database accordingly. Additionally, to ensure rapid rendering and optimal memory usage, the JavaScript engine manages robust **Frontend Pagination**, mathematically slicing the JSON array to ensure only 9 courses are rendered per page.</p>
+        
+        <div class="screenshot-box">
+           <img src="./mca/2.png" alt="Course Catalog with Filters" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 9 -->
+        <h2>9. Course Cart & Coupon Management</h2>
+        <p>The platform boasts a seamless, highly interactive e-commerce shopping cart system. Users can click "Add to Cart" on various courses, which instantly updates a floating Mini-Cart header widget and populates the main Cart Page. The JavaScript algorithm iterates over the added items to accurately calculate the running subtotal.</p>
+        <p>A major highlight of this module is the sophisticated <strong>Promotional Coupon Engine</strong>. When a student inputs a promo code, the frontend compiles a `FormData` object containing the `cartSubtotal` and `couponCode`, sending it to the .NET `/api/coupon/apply-coupon` API. The backend evaluates complex business logic—checking if the code is expired, if the user has reached their usage limit, or if the minimum order value is met. If validated, the API returns the exact calculated discount. The JavaScript then dynamically modifies the DOM, injecting a vivid discount row and slashing the final total price in real-time.</p>
+        <div class="screenshot-box">
+            <img src="./mca/3.png" alt="Cart Page with Coupon Code Applied" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 10 -->
+        <h2>10. Payment Gateway Integration (Razorpay)</h2>
+        <p>To elevate the application from a mere academic project into a commercially viable, profit-generating business application capable of processing real money, the <strong>Razorpay Payment Gateway SDK</strong> was deeply integrated into the checkout flow. The architecture ensures extreme financial security and prevents tampering.</p>
+        
+        <h3>The Cryptographic Payment Flow (`buyNow` Function)</h3>
+        <p>The payment process follows a strict 3-step verification model:</p>
+        <ol>
+            <li><strong>Order Creation:</strong> When a user clicks "Buy Now", the JS client makes a secure, authenticated POST request to the .NET server. The server calculates the exact final price (applying coupons if necessary) and creates an official `order_id` via the Razorpay Server API.</li>
+            <li><strong>Client Checkout:</strong> This `order_id` is passed back to the JavaScript client, initializing the Razorpay SDK. A secure iFrame overlay opens, allowing the user to pay via Credit Card, UPI, or NetBanking.</li>
+            <li><strong>Signature Verification:</strong> Upon successful transaction, Razorpay generates a cryptographic `razorpay_signature`. The frontend immediately sends this signature back to the .NET backend. The backend uses HMAC SHA256 to hash the payment details and compares it against the signature. Only if the signatures perfectly match does the backend update the database to grant the student lifetime access to the course, completely preventing frontend hacking attempts.</li>
+        </ol>
+        
+        <pre>
+const options = {
+    key: razorpayOrder.key,
+    amount: razorpayOrder.amount,
+    currency: razorpayOrder.currency,
+    order_id: razorpayOrder.razorpay_order_id,
+    handler: async function (response) {
+        // Verify Payment Signature cryptographically on the Backend
+        const verifyData = await verifyRazorpayPayment(response);
+        Swal.fire("Success", "Payment Successful! 🎉", "success");
+    }
+};
+const rzp = new Razorpay(options);
+rzp.open();
+        </pre>
+        <div class="screenshot-box">
+           <img src="./mca/4.png" alt="Razorpay Payment Gateway Checkout" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 11 -->
+        <h2>11. Student Dashboard & Live Class Integration</h2>
+        <p>Upon a successful, verified purchase, students are seamlessly redirected to their highly personalized Student Dashboard. This secure area acts as the student's central hub. It fetches user-specific data using the Bearer Token and displays analytical progress using statistical Bootstrap cards ("Total Enrolled Courses", "Active Courses", "Completed Courses").</p>
+        <p>A standout, premium feature of this EdTech platform is the <strong>Live Class & Batch Integration Module</strong>. Unlike standard platforms that only offer static, pre-recorded video lectures, this system allows instructors to create specific "Batches". The student's dashboard dynamically queries the database for any active Batches assigned to their profile. It then renders a scheduling table showing upcoming class dates, topics, and exact timings. At the scheduled time, it instantly provides a functional "Join Now" button embedding secure Zoom or Google Meet URLs, facilitating interactive, real-time remote education.</p>
+        <div class="screenshot-box">
+            <img src="./mca/5.png" alt="Student Dashboard with Live Batch Schedule" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 12 -->
+        <h2>12. Admin Panel: User & Course Management</h2>
+        <p>The Admin Panel operates as the central nervous system of the EdTech platform. To ensure highest-level security, access to these routes and APIs is strictly restricted. The .NET backend actively inspects the JWT payload, and if the user lacks the explicit "ADMIN" role, all requests return a 401 Unauthorized or 403 Forbidden response.</p>
+        <p><strong>Comprehensive Administrative Controls:</strong> Within this panel, the administrator wields complete power over the platform's data. They can view comprehensive lists of all registered students, suspend or ban abusive accounts, and permanently purge dummy data. Furthermore, the Course Management module enables admins to upload new educational content, dictate complex pricing and discount structures, assign categories, and schedule Live Batches. Complex HTML forms utilize the JavaScript `FormData` interface to securely transmit multi-part requests, enabling the flawless upload of heavy course thumbnail images and video assets to the server.</p>
+        <div class="screenshot-box">
+            <img src="./mca/6.png" alt="Admin Panel with User and Course Management" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 13 -->
+        <h2>13. Admin Panel: Order & Coupon Management</h2>
+        <p>Financial integrity and promotional control are heavily monitored via the dedicated Order and Coupon modules. In the customized `coupon.js` file, the Admin has the ability to execute complete CRUD (Create, Read, Update, Delete) operations for marketing discount codes.</p>
+        <p>The Admin logic allows precise dictation over how coupons behave: establishing whether a coupon yields a FLAT currency deduction or a PERCENTAGE-based discount, enforcing minimum order thresholds, capping maximum discount limits, and setting strict calendar expiration dates. All deletions prompt a `SweetAlert2` double-confirmation dialog to prevent catastrophic accidental data loss.</p>
+        <p>Simultaneously, the Orders panel provides a sweeping overview of the platform's financial health. The platform owner can monitor total sales volume, audit individual student invoices, calculate aggregate revenue, and cross-reference whether specific Razorpay transactions resulted in a 'Success' or 'Failure' state. This empowers the business to meticulously manage Profit and Loss margins directly from the graphical user interface without needing to manually inspect database tables.</p>
+
+        <div class="screenshot-box">
+          <img src="./mca/7.png" alt="Admin Panel with Order and Coupon Management" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 14 -->
+        <h2>14. Core Coding Implementation (HTML, CSS, JS, .NET)</h2>
+        <p>The foundation of this EdTech platform is built upon writing clean, optimized, and secure code. A strict separation of concerns was maintained across the entire stack. Below is the detailed breakdown of how the coding architectures were implemented.</p>
+        
+        <h3>14.1 HTML & CSS (The Presentation Layer)</h3>
+        <p>The visual framework of the project was coded using <strong>HTML5</strong> structural tags (`<header>`, `<main>`, `<section>`, `<article>`) to ensure semantic readability and SEO optimization. We utilized <strong>CSS3</strong> alongside the Bootstrap grid system to construct a fully responsive layout. Custom CSS classes were written to implement smooth hover transitions, box-shadows on course cards, and modal popups. This ensures that a student accessing the site via a mobile phone receives the exact same premium aesthetic experience as a student on a desktop monitor.</p>
+        <div class="screenshot-box">
+                    <img src="./mca/9.png" alt="Admin Panel with Order and Coupon Management" style="max-width: 100%; height: auto;">
+
+        </div>
+
+        <h3>14.2 JavaScript (The Client-Side Logic Engine)</h3>
+        <p>The interactive intelligence of the platform is driven by pure <strong>Vanilla JavaScript (ES6)</strong>. We bypassed heavy frameworks and utilized modern JavaScript functions such as `async/await` and the `fetch()` API. JavaScript files like `get-all-course.js` and `coupon.js` act as the brain of the frontend. They intercept user clicks, gather form data using the `FormData` object, apply Bearer tokens from `localStorage`, and negotiate with the backend server. We also implemented advanced string manipulation and DOM injection techniques (using Template Literals `` ` ``) to paint the screen with data instantly without forcing the browser to refresh.</p>
+        <div class="screenshot-box">
+                      <img src="./mca/8.png" alt="Admin Panel with Order and Coupon Management" style="max-width: 100%; height: auto;">
+
+        </div>
+
+        <h3>14.3 .NET & C# (The Server-Side & API Layer)</h3>
+        <p>The invisible but critical backbone of the platform is coded in <strong>C# utilizing the .NET Core Framework</strong>. We developed RESTful Web APIs governed by strongly-typed Models and Controllers. The .NET code utilizes Entity Framework (EF Core) to establish a secure, object-oriented connection to the SQL Database. Security code was written to implement JWT Middleware, ensuring that every incoming request is inspected for a valid token signature. Complex business logic, such as calculating order subtotals and cryptographically hashing Razorpay webhooks, was exclusively written in the .NET environment to prevent any malicious tampering from the client side.</p>
+        <div class="screenshot-box">
+            <img src="./mca/10.png" alt="Admin Panel with Order and Coupon Management" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 15 -->
+        <h2>15. User Interface Walkthrough (Main Page & Admin Dashboard)</h2>
+        <p>A crucial part of any Learning Management System is its User Interface (UI). This section explains the two most vital landing pages of the platform: the Public Home Page for students and the highly secured Dashboard for Administrators.</p>
+        
+        <h3>15.1 Website Main Page (Public Home Page)</h3>
+        <p>The Main Page acts as the digital storefront and the first point of contact for any visiting learner. It is meticulously designed to maximize user engagement and drive course enrollments. Key elements include:</p>
+        <ul>
+            <li><strong>Hero Section & Search:</strong> A visually striking banner with a dynamic search bar, allowing students to immediately search for their desired skills (e.g., "Python", "Web Development").</li>
+            <li><strong>Course Carousels:</strong> Dedicated sections dynamically rendering "Top Rated Courses" and "Newly Added Courses" fetched directly from the .NET database via the `get-all-course.js` script.</li>
+            <li><strong>Testimonials & Trust Metrics:</strong> A grid of student reviews and platform statistics (e.g., total active learners, total courses) to build trust and credibility.</li>
+        </ul>
+        <div class="screenshot-box">
+            <img src="./mca/12.png" alt="Website Main Home Page" style="max-width: 100%; height: auto;">
+           
+        </div>
+
+        <h3>15.2 Admin Panel Dashboard (Control Center)</h3>
+        <p>The Admin Dashboard is the restricted, centralized command center for the platform owners. Upon authenticating with an Admin-level JWT token, the platform owner is presented with a high-level overview of the entire business operation.</p>
+        <p><strong>Dashboard Widgets & Features:</strong></p>
+        <ul>
+            <li><strong>Analytical Overview:</strong> Real-time Bootstrap cards displaying critical business metrics: <em>Total Revenue Generated (₹)</em>, <em>Active Enrolled Students</em>, and <em>Total Courses Published</em>.</li>
+            <li><strong>Recent Transactions:</strong> A data table fetching the latest Razorpay transaction statuses, showing which student purchased which course and at what time.</li>
+            <li><strong>Quick Access Sidebar:</strong> A highly responsive sidebar navigation allowing the Admin to quickly jump to "Add New Course", "Manage Coupons", or "Review Student Accounts" with a single click.</li>
+        </ul>
+        <div class="screenshot-box">
+            <img src="./mca/11.png" alt="Admin Panel Dashboard" style="max-width: 100%; height: auto;">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Section 16 -->
+        <h2>16. Software Testing & Quality Assurance</h2>
+        <p>To ensure a flawless, bug-free experience capable of handling thousands of potential concurrent students, rigorous multi-tiered testing methodologies were systematically applied throughout the development lifecycle:</p>
+        <ul>
+            <li><strong>Unit Testing & Edge Cases:</strong> Core JavaScript algorithms (such as the `decodeJWT` parser, the dynamic pagination calculators, and the `cartSubtotal` modifiers) were subjected to rigorous edge-case testing. We tested how the system reacts to null values, empty strings, and expired authorization tokens to prevent frontend crashes.</li>
+            <li><strong>Payment Gateway Simulation:</strong> Utilizing Razorpay's official Test Mode environment and sandbox API keys, dozens of dummy financial transactions were executed. We simulated successful payments, deliberately failed banking timeouts, and declined credit cards to ensure the .NET webhook accurately caught failures and prevented unauthorized course access.</li>
+            <li><strong>Responsive UI & Cross-Browser Testing:</strong> The HTML/CSS architecture and Bootstrap grid system were comprehensively audited using Chrome Developer Tools' Device Toolbar. The UI was tested across emulated Desktop, Tablet (iPad), and Mobile (iPhone/Android) viewports to guarantee that course carousels and complex navigation menus stacked perfectly without overflowing or breaking the visual layout.</li>
+            <li><strong>API Endpoint Auditing:</strong> The Postman software suite was utilized to barrage the .NET backend with test requests, ensuring that unauthorized GET/POST attempts to Admin routes strictly returned 401 Unauthorized status codes, confirming the integrity of our JWT Middleware protection.</li>
+        </ul>
+
+        <div class="page-break"></div>
+
+        <!-- Section 17 -->
+        <h2>17. Conclusion & Future Enhancements</h2>
+        <h3>Conclusion:</h3>
+        <p>The EdTech Learning Management System successfully conceptualizes, designs, and implements a commercial-grade, highly scalable digital educational platform. By meticulously combining a lightweight, responsive HTML/CSS/JavaScript frontend with a tremendously powerful, highly secure <strong>.NET and SQL Database backend</strong>, this project strictly adheres to modern software engineering industry standards.</p>
+        <p>The execution of stateless JWT authentication ensures ironclad data privacy, while the integration of the Razorpay payment gateway transcends this from a mere academic exercise into a fully viable, profit-generating business model. This project stands as a testament to the power of decoupled Full-Stack development, proving capable of serving high-quality education to eager students globally.</p>
+        
+        <h3>Future Enhancements:</h3>
+        <p>While the current iteration of the system is fully operational and feature-rich, future updates could exponentially increase its utility. Proposed enhancements include:</p>
+        <ul>
+            <li><strong>AI-Driven Analytics:</strong> Implementing Machine Learning algorithms to track user browsing history and automatically recommend personalized courses based on their specific learning patterns.</li>
+            <li><strong>Automated PDF Certification:</strong> Developing a backend utility that automatically generates, signs, and emails a verified PDF diploma to the student the moment they reach 100% course completion.</li>
+            <li><strong>Real-Time Communication:</strong> Integrating WebSockets (via ASP.NET SignalR or Socket.io) to facilitate a real-time, in-app chat messenger between students and instructors for instantaneous doubt resolution without leaving the platform.</li>
+            <li><strong>Dedicated Mobile Application:</strong> Utilizing frameworks like React Native or Flutter to consume these exact same .NET APIs, deploying a native mobile app to the Google Play Store and Apple App Store for maximum market penetration.</li>
+        </ul>
+    </div>
+</body>
+</html>
