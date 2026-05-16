@@ -7,41 +7,122 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-let deferredPrompt;
+const PWA_INSTALLED_KEY = 'pwaInstalled';
+const PWA_DISMISSED_KEY = 'pwaPromptDismissed';
 
-// Capture the install prompt event early (it might fire before DOMContentLoaded)
-window.addEventListener('beforeinstallprompt', (e) => {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+let deferredPrompt = null;
+let installCheckPromise = null;
 
-    if (isStandalone) {
-        return;
+function isRunningAsInstalledPwa() {
+    return (
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches ||
+        window.navigator.standalone === true
+    );
+}
+
+async function detectInstalledRelatedApps() {
+    if (!('getInstalledRelatedApps' in navigator)) {
+        return false;
+    }
+    try {
+        const relatedApps = await navigator.getInstalledRelatedApps();
+        return relatedApps.length > 0;
+    } catch (err) {
+        console.warn('getInstalledRelatedApps failed', err);
+        return false;
+    }
+}
+
+async function isPwaInstalledOnDevice() {
+    if (isRunningAsInstalledPwa()) {
+        localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+        return true;
     }
 
-    // If this event fires, it means the app is NOT installed (e.g., user uninstalled it).
-    // Clear the pwaInstalled flag so they can see the prompt again.
-    localStorage.removeItem('pwaInstalled');
-
-    // Do not show prompt if user dismissed it
-    if (localStorage.getItem('pwaPromptDismissed') === 'true') {
-        return;
+    if (localStorage.getItem(PWA_INSTALLED_KEY) === 'true') {
+        return true;
     }
 
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    console.log('✅ beforeinstallprompt event fired!');
-    
-    // If the DOM is already loaded, show the prompt immediately
+    if ('getInstalledRelatedApps' in navigator) {
+        const installedViaApi = await detectInstalledRelatedApps();
+        if (installedViaApi) {
+            localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function refreshInstallCheck() {
+    installCheckPromise = isPwaInstalledOnDevice();
+    return installCheckPromise;
+}
+
+function getInstallCheck() {
+    if (!installCheckPromise) {
+        installCheckPromise = isPwaInstalledOnDevice();
+    }
+    return installCheckPromise;
+}
+
+function hideInstallPrompt() {
+    const installPrompt = document.getElementById('pwaInstallPrompt');
+    if (installPrompt) {
+        installPrompt.classList.remove('show');
+    }
+}
+
+async function shouldShowInstallPrompt() {
+    if (await getInstallCheck()) {
+        return false;
+    }
+    return localStorage.getItem(PWA_DISMISSED_KEY) !== 'true';
+}
+
+async function maybeShowInstallPrompt() {
+    if (!(await shouldShowInstallPrompt()) || !deferredPrompt) {
+        hideInstallPrompt();
+        return;
+    }
     const installPrompt = document.getElementById('pwaInstallPrompt');
     if (installPrompt) {
         installPrompt.classList.add('show');
     }
+}
+
+installCheckPromise = isPwaInstalledOnDevice();
+
+window.addEventListener('beforeinstallprompt', async (e) => {
+    if (localStorage.getItem(PWA_INSTALLED_KEY) === 'true') {
+        hideInstallPrompt();
+        return;
+    }
+
+    if (await refreshInstallCheck()) {
+        hideInstallPrompt();
+        return;
+    }
+
+    if (localStorage.getItem(PWA_DISMISSED_KEY) === 'true') {
+        return;
+    }
+
+    e.preventDefault();
+    deferredPrompt = e;
+
+    if (await refreshInstallCheck()) {
+        deferredPrompt = null;
+        hideInstallPrompt();
+        return;
+    }
+
+    await maybeShowInstallPrompt();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    // 2. Inject PWA Install Prompt Styles
+document.addEventListener('DOMContentLoaded', async () => {
     const style = document.createElement('style');
     style.innerHTML = `
         .pwa-install-prompt {
@@ -57,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             width: 90%;
             max-width: 400px;
             font-family: sans-serif;
-            display: none; /* hidden by default */
+            display: none;
         }
         .pwa-install-prompt.show {
             display: block;
@@ -117,81 +198,77 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 3. Inject the HTML provided for the prompt
-    const promptHTML = `
-        <div class="pwa-install-prompt" id="pwaInstallPrompt">
-            <div class="pwa-install-content">
-                <div class="pwa-install-icon-cell">
-                    <img class="pwa-install-icon" src="assets/images/favicon.webp" alt="EdTech">
-                </div>
-                <div class="pwa-install-text-cell">
-                    <strong>Install EdTech</strong>
-                    <p>Get quick access from your home screen</p>
-                </div>
-                <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
-                <button class="pwa-dismiss-btn" id="pwaDismissBtn">×</button>
-            </div>
-        </div>
-    `;
-    document.body.insertAdjacentHTML('beforeend', promptHTML);
+    document.body.insertAdjacentHTML('beforeend', [
+        '<div class="pwa-install-prompt" id="pwaInstallPrompt">',
+        '<motion class="pwa-install-content">',
+        '<motion class="pwa-install-icon-cell">',
+        '<img class="pwa-install-icon" src="assets/images/favicon.webp" alt="EdTech">',
+        '</motion>',
+        '<motion class="pwa-install-text-cell">',
+        '<strong>Install EdTech</strong>',
+        '<p>Get quick access from your home screen</p>',
+        '</motion>',
+        '<button class="pwa-install-btn" id="pwaInstallBtn">Install</button>',
+        '<button class="pwa-dismiss-btn" id="pwaDismissBtn">×</button>',
+        '</motion>',
+        '</div>'
+    ].join('').replace(/<\/?motion/g, (tag) => tag.replace('motion', 'div')));
 
-    // 4. Handle Installation Logic
     const installPrompt = document.getElementById('pwaInstallPrompt');
     const installBtn = document.getElementById('pwaInstallBtn');
     const dismissBtn = document.getElementById('pwaDismissBtn');
 
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-    // Ensure prompt never shows if the user is using the standalone PWA
-    if (isStandalone && installPrompt) {
-        installPrompt.classList.remove('show');
-    } else if (deferredPrompt && installPrompt) {
-        // Show the prompt ONLY if the browser fired the install event (meaning it is not installed)
-        if (localStorage.getItem('pwaPromptDismissed') !== 'true') {
-            installPrompt.classList.add('show');
-        }
+    if (await refreshInstallCheck()) {
+        hideInstallPrompt();
+    } else if (deferredPrompt) {
+        await maybeShowInstallPrompt();
+        setTimeout(async () => {
+            if (await refreshInstallCheck()) {
+                hideInstallPrompt();
+            }
+        }, 800);
     }
 
-    // Handle the install button click
+    window.addEventListener('pageshow', async () => {
+        if (await refreshInstallCheck()) {
+            hideInstallPrompt();
+        }
+    });
+
     installBtn.addEventListener('click', async () => {
         installPrompt.classList.remove('show');
         if (deferredPrompt) {
-            // Show the native browser install prompt
             deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
             const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            // Clear the saved prompt since it can't be used again
             deferredPrompt = null;
             if (outcome === 'accepted') {
-                localStorage.setItem('pwaInstalled', 'true');
+                localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+            } else if (await refreshInstallCheck()) {
+                localStorage.setItem(PWA_INSTALLED_KEY, 'true');
             }
+        } else if (await refreshInstallCheck()) {
+            localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+        } else if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'info',
+                title: 'App Installation',
+                text: 'To install the app, use the install icon in your browser URL bar. If it is not there, the app may already be installed.',
+                confirmButtonText: 'Got it!'
+            });
         } else {
-            // Graceful fallback if Chrome blocked the native prompt
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'App Installation',
-                    text: 'To install the app, click the install icon (monitor with a down arrow) on the right side of your browser URL bar. If it is not there, the app might already be installed.',
-                    confirmButtonText: 'Got it!'
-                });
-            } else {
-                alert("To install the app, click the install icon on the right side of your browser URL bar.");
-            }
+            alert('To install the app, use the install icon in your browser URL bar.');
         }
     });
 
-    // Handle the dismiss button click
     dismissBtn.addEventListener('click', () => {
         installPrompt.classList.remove('show');
-        localStorage.setItem('pwaPromptDismissed', 'true');
+        localStorage.setItem(PWA_DISMISSED_KEY, 'true');
     });
 
-    // Log when the app is successfully installed
     window.addEventListener('appinstalled', () => {
         installPrompt.classList.remove('show');
         deferredPrompt = null;
-        localStorage.setItem('pwaInstalled', 'true');
-        console.log('✅ PWA was installed successfully');
+        localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+        refreshInstallCheck();
     });
 });

@@ -1,7 +1,9 @@
 {
   "name": "Edtech App",
   "short_name": "Edtech",
+  "id": "hyperscripts-edtech-pwa",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#cc9966",

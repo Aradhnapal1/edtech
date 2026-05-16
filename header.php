@@ -61,7 +61,7 @@
    <script src="./js/checkout.js"></script>
    <script src="./js/payment.js"></script>
 
-   <script src="./js/pwa.js"></script>
+   <script src="./js/pwa.js?v=3"></script>
    <script src="script.js"></script>
    
    
