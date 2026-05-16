@@ -98,7 +98,7 @@
                         <li><a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a></li>
                         <li><a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
                      </ul>
-                     <ul class="header-top-bar-wrap__info-list d-none d-lg-flex">
+                     <ul class="header-top-bar-wrap__info-list d-none d-lg-flex" id="headerAuthButtons">
                         <li><button data-bs-toggle="modal" data-bs-target="#loginModal">Log in</button></li>
                         <li><button data-bs-toggle="modal" data-bs-target="#registerModal">Register</button></li>
                      </ul>
@@ -515,5 +515,98 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<script>
+// ==============================================================================
+// Header & Mobile Auth Update (Direct JS in header to bypass Cache issues)
+// ==============================================================================
+document.addEventListener("DOMContentLoaded", function () {
+    const token = localStorage.getItem('authToken');
+    const headerAuthContainer = document.getElementById('headerAuthButtons');
+    const mobileAuthContainers = document.querySelectorAll('.offcanvas-user');
+
+    if (token) {
+        let userName = 'User';
+        try {
+            // Token ko decode karke user ka naam nikalna
+            const payload = JSON.parse(decodeURIComponent(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join('')));
+            userName = payload.name || payload.FirstName || payload.UserName || payload.email || 'User';
+        } catch (e) {
+            console.error("Token parsing error:", e);
+        }
+
+        // Profile aur Settings ka HTML format 
+        const getAuthHtml = (isMobile) => `
+            <li style="display: flex; align-items: center; gap: 15px;">
+                <span class="headerWelcomeName" style="color: #ffffff; font-weight: 500; font-size: ${isMobile ? '16px' : 'inherit'};">Welcome, ${userName}</span>
+            </li>
+            <li style="position: relative; margin-left: ${isMobile ? 'auto' : '0'};">
+                <button onclick="toggleUserDropdown(event)" style="background: none; border: none; color: #ffffff; cursor: pointer; padding: 5px; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div class="userSettingsDropdown" style="display: none; position: absolute; ${isMobile ? 'bottom: 150%; top: auto; margin-bottom: 10px;' : 'top: 150%; bottom: auto; margin-top: 10px;'} right: 0px; background: rgb(255, 255, 255); border: 1px solid rgb(224, 224, 224); border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px; min-width: 200px; z-index: 1000; overflow: hidden;">
+                    <div style="padding: 12px 16px; border-bottom: 1px solid #f0f0f0; background: #f8f9fa;">
+                        <strong style="color: #333; font-size: 14px;">Account Settings</strong>
+                    </div>
+                    <ul style="list-style: none; margin: 0; padding: 8px 0;">
+                        <li>
+                            <a href="dashboard-index.php" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #333; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='transparent'">
+                                <i class="fas fa-user" style="color: #007bff; font-size: 16px;"></i>
+                                <span style="font-size: 14px; font-weight: 500;">Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <button onclick="logoutAction(event)" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px; background: none; border: none; color: #dc3545; text-align: left; cursor: pointer; transition: background 0.2s; font-size: 14px; font-weight: 500;" onmouseover="this.style.background='#fff5f5'" onmouseout="this.style.background='transparent'">
+                                <i class="fas fa-sign-out-alt" style="color: #dc3545; font-size: 16px;"></i>
+                                <span>Logout</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        `;
+
+        // Append in Header (Desktop view)
+        if (headerAuthContainer) headerAuthContainer.innerHTML = getAuthHtml(false);
+        
+        // Append in Mobile View (.offcanvas-user)
+        if (mobileAuthContainers.length > 0) {
+            mobileAuthContainers.forEach(container => {
+                container.innerHTML = `<ul class="header-top-bar-wrap__info-list d-flex justify-content-between align-items-center flex-wrap w-100 m-0 p-0" style="list-style: none;">${getAuthHtml(true)}</ul>`;
+            });
+        }
+    }
+});
+
+// Settings Dropdown ko open/close karne ka function
+function toggleUserDropdown(event) {
+    event.stopPropagation();
+    const dropdown = event.currentTarget.nextElementSibling;
+    document.querySelectorAll('.userSettingsDropdown').forEach(d => { if (d !== dropdown) d.style.display = 'none'; });
+    dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
+}
+
+// Bahar click karne par dropdown band ho jayega
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('.userSettingsDropdown').forEach(dropdown => {
+        if (!dropdown.contains(event.target) && !dropdown.previousElementSibling.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+});
+
+// Logout karne ka function
+function logoutAction(e) {
+    e.preventDefault();
+    if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        window.location.href = 'index.php';
+    }
+}
+</script>
 
 <!-- main header tab active js end -->
