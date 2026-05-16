@@ -1,0 +1,9 @@
+{
+  "appId": "com.edtech.app",
+  "appName": "Edtech",
+  "webDir": "www",
+  "server": {
+    "url": "https://springgreen-hawk-472246.hostingersite.com",
+    "cleartext": true
+}
+}
