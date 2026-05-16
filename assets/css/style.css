@@ -887,6 +887,15 @@ hr {
   pointer-events: auto;
 }
 
+/* Login/Register modals above mobile nav offcanvas (1070) */
+.modal {
+  z-index: 1090 !important;
+}
+
+.modal-backdrop.show {
+  z-index: 1085 !important;
+}
+
 .course-filter-offcanvas.showing,
 .course-filter-offcanvas.show {
   width: 50vw !important;

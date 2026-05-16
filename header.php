@@ -43,7 +43,7 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
    <!-- Style CSS -->
-   <link rel="stylesheet" href="assets/css/style.css?v=20250516">
+   <link rel="stylesheet" href="assets/css/style.css?v=20250516b">
 
    <!--  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -607,6 +607,26 @@ function logoutAction(e) {
         window.location.href = 'index.php';
     }
 }
+
+function closeMobileMenuOffcanvas() {
+    var menu = document.getElementById('offcanvasMobileMenu');
+    if (!menu || !menu.classList.contains('show')) return;
+    var instance = bootstrap.Offcanvas.getInstance(menu);
+    if (instance) instance.hide();
+}
+
+['loginModal', 'registerModal'].forEach(function (modalId) {
+    var modalEl = document.getElementById(modalId);
+    if (!modalEl) return;
+    modalEl.addEventListener('show.bs.modal', closeMobileMenuOffcanvas);
+});
+
+document.addEventListener('click', function (event) {
+    var authBtn = event.target.closest('[data-bs-target="#loginModal"], [data-bs-target="#registerModal"]');
+    if (authBtn && authBtn.closest('#offcanvasMobileMenu')) {
+        closeMobileMenuOffcanvas();
+    }
+}, true);
 </script>
 
 <!-- main header tab active js end -->
