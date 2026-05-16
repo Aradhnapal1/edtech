@@ -43,7 +43,7 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
    <!-- Style CSS -->
-   <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="assets/css/style.css?v=20250516">
 
    <!--  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

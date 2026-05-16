@@ -75,6 +75,18 @@
 </div>
 <!-- Offcanvas End -->
 <!-- Courses Start -->
+<style>
+@media (max-width: 991.98px) {
+   .courses-section .course-page-sidebar {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+   }
+}
+</style>
 <div class="courses-section section-padding-01">
    <div class="container">
       <div class="row gy-10 flex-row-reverse">
@@ -162,8 +174,8 @@
             </div>
             <!-- Page Pagination End -->
          </div>
-         <!-- our course -->
-         <div class="col-lg-3">
+         <!-- our course (hidden on mobile; use Filters drawer) -->
+         <div class="col-lg-3 course-page-sidebar d-none d-lg-block">
             <!-- Sidebar Widget Start -->
             <div class="sidebar-widget-wrapper">
                <!-- Sidebar Widget Wrapper Start -->

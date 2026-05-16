@@ -946,9 +946,10 @@ hr {
   display: none !important;
 }
 
-@media only screen and (max-width: 991px) {
-  .courses-section .col-lg-3 {
-    display: none;
+@media only screen and (max-width: 991.98px) {
+  .courses-section .course-page-sidebar,
+  .courses-section .col-lg-3.course-page-sidebar {
+    display: none !important;
   }
 
   .archive-filter-bars {
