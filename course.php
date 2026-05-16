@@ -597,6 +597,58 @@
             <ul class="widget-filter__list" id="languageList2"></ul>
          </div>
       </div>
+      <div class="widget-filter mt-4">
+         <h4 class="widget-filter__title-02">Rating</h4>
+         <div class="widget-filter__wrapper">
+            <ul class="widget-filter__list">
+               <li>
+                  <div class="widget-filter__item">
+                     <input type="checkbox" id="drawerRating5" name="rating-filter">
+                     <label for="drawerRating5">
+                        <span class="star-line"><span class="star" style="width: 100%;"></span></span>
+                        <span>(07)</span>
+                     </label>
+                  </div>
+               </li>
+               <li>
+                  <div class="widget-filter__item">
+                     <input type="checkbox" id="drawerRating4" name="rating-filter">
+                     <label for="drawerRating4">
+                        <span class="star-line"><span class="star" style="width: 80%;"></span></span>
+                        <span>(0)</span>
+                     </label>
+                  </div>
+               </li>
+               <li>
+                  <div class="widget-filter__item">
+                     <input type="checkbox" id="drawerRating3" name="rating-filter">
+                     <label for="drawerRating3">
+                        <span class="star-line"><span class="star" style="width: 60%;"></span></span>
+                        <span>(0)</span>
+                     </label>
+                  </div>
+               </li>
+               <li>
+                  <div class="widget-filter__item">
+                     <input type="checkbox" id="drawerRating2" name="rating-filter">
+                     <label for="drawerRating2">
+                        <span class="star-line"><span class="star" style="width: 40%;"></span></span>
+                        <span>(0)</span>
+                     </label>
+                  </div>
+               </li>
+               <li>
+                  <div class="widget-filter__item">
+                     <input type="checkbox" id="drawerRating1" name="rating-filter">
+                     <label for="drawerRating1">
+                        <span class="star-line"><span class="star" style="width: 20%;"></span></span>
+                        <span>(0)</span>
+                     </label>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </div>
    </div>
 </div>
 
@@ -606,6 +658,19 @@ document.addEventListener('DOMContentLoaded', function () {
    if (drawer && drawer.parentElement !== document.body) {
       document.body.appendChild(drawer);
    }
+
+   var mobileMenu = document.getElementById('offcanvasMobileMenu');
+   if (!mobileMenu) return;
+
+   mobileMenu.addEventListener('show.bs.offcanvas', function () {
+      if (drawer && drawer.classList.contains('show')) {
+         var filterInstance = bootstrap.Offcanvas.getInstance(drawer);
+         if (filterInstance) filterInstance.hide();
+      }
+      document.querySelectorAll('.offcanvas-backdrop').forEach(function (el, index, list) {
+         if (index < list.length - 1) el.remove();
+      });
+   });
 });
 </script>
 

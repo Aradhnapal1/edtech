@@ -874,8 +874,17 @@ hr {
   z-index: 1060;
 }
 
-body > .offcanvas-backdrop {
-  z-index: 1055;
+/* Mobile nav must stay above Bootstrap backdrop (1040) */
+.offcanvas-mobile.offcanvas {
+  z-index: 1070;
+}
+
+.offcanvas-mobile .offcanvas-header,
+.offcanvas-mobile .offcanvas-body,
+.offcanvas-mobile .offcanvas-user {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .course-filter-offcanvas.showing,
