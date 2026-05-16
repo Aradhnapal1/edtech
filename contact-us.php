@@ -9,7 +9,7 @@
                     <!-- Page Breadcrumb Start -->
                     <div class="page-breadcrumb">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                             <li class="breadcrumb-item active">Contact us</li>
                         </ul>
                     </div>
