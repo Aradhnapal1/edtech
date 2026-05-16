@@ -763,11 +763,11 @@
     }
 
     .hiring-carousel-arrow.left {
-        left: -20px;
+        left: 0px;
     }
 
     .hiring-carousel-arrow.right {
-        right: -20px;
+        right: 0px;
     }
 
     .hiring-carousel-arrow:hover {
