@@ -93,8 +93,9 @@
                         <li><button data-bs-toggle="tab" data-bs-target="#list"><i class="fas fa-bars"></i></button>
                         </li>
                      </ul>
-                     <button class="btn btn-light btn-hover-primary collapsed" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFilter">
+                     <button class="btn btn-light btn-hover-primary course-filter-toggle d-lg-none" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#courseFilterDrawer"
+                        aria-controls="courseFilterDrawer">
                         <i class="fas fa-filter"></i>
                         Filters
                      </button>
@@ -102,280 +103,6 @@
                </div>
             </div>
             <!-- Archive Filter Bars End -->
-            <!-- Filter Collapse Start -->
-            <div class="filter-collapse collapse" id="collapseFilter">
-               <div class="card card-body">
-                  <div class="row row-cols-xl-5 gy-6">
-                    
-                     <div class="col-xl-3 col-md-4 col-sm-6">
-                        <!-- Widget Filter Start -->
-                        <div class="widget-filter">
-                           <h4 class="widget-filter__title">Categories</h4>
-                           <!-- Widget Filter Wrapper Start -->
-                           <div class="widget-filter__wrapper widgetScroll">
-                              <ul class="widget-filter__list" id="categoryList2">
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories1" name="sort-by">
-                                       <label for="categories1">Art & Design <span>(8)</span></label>
-                                    </div>
-
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories2" name="sort-by">
-                                       <label for="categories2">Business <span>(12)</span></label>
-                                    </div>
-
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories3" name="sort-by">
-                                       <label for="categories3">Data Science <span>(7)</span></label>
-                                    </div>
-
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories4" name="sort-by">
-                                       <label for="categories4">Development <span>(10)</span></label>
-                                    </div>
-
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories5" name="sort-by">
-                                       <label for="categories5">Finance <span>(8)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories6" name="sort-by">
-                                       <label for="categories6">Health & Fitness <span>(8)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories7" name="sort-by">
-                                       <label for="categories7">Lifestyle <span>(9)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories8" name="sort-by">
-                                       <label for="categories8">Marketing <span>(8)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories9" name="sort-by">
-                                       <label for="categories9">Music <span>(8)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories10" name="sort-by">
-                                       <label for="categories10">Personal Development <span>(9)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories11" name="sort-by">
-                                       <label for="categories11">Photography <span>(7)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="categories12" name="sort-by">
-                                       <label for="categories12">Teaching & Academics <span>(7)</span></label>
-                                    </div>
-                                 </li>
-                              </ul>
-                           </div>
-                           <!-- Widget Filter Wrapper End -->
-                        </div>
-                        <!-- Widget Filter End -->
-                     </div>
-                    
-                     <div class="col-xl-3 col-md-4 col-sm-6">
-                        <!-- Widget Filter Start -->
-                        <div class="widget-filter">
-                           <h4 class="widget-filter__title">Rating</h4>
-                           <!-- Widget Filter Wrapper Start -->
-                           <div class="widget-filter__wrapper widgetScroll">
-                              <ul class="widget-filter__list">
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating1" name="rating">
-                                       <label for="rating1">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 100%;"></span>
-                                          </span>
-                                          <span>(07)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating2" name="rating">
-                                       <label for="rating2">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 80%;"></span>
-                                          </span>
-                                          <span>(0)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating2" name="rating">
-                                       <label for="rating2">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 80%;"></span>
-                                          </span>
-                                          <span>(0)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating3" name="rating">
-                                       <label for="rating3">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 60%;"></span>
-                                          </span>
-                                          <span>(0)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating4" name="rating">
-                                       <label for="rating4">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 40%;"></span>
-                                          </span>
-                                          <span>(0)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="rating5" name="rating">
-                                       <label for="rating5">
-                                          <span class="star-line">
-                                             <span class="star" style="width: 20%;"></span>
-                                          </span>
-                                          <span>(0)</span>
-                                       </label>
-                                    </div>
-                                 </li>
-                              </ul>
-                           </div>
-                           <!-- Widget Filter Wrapper End -->
-                        </div>
-                        <!-- Widget Filter End -->
-                     </div>
-                     <div class="col-xl-3 col-md-4 col-sm-6">
-                        <!-- Widget Filter Start -->
-                        <div class="widget-filter">
-                           <h4 class="widget-filter__title">Language</h4>
-                           <!-- Widget Filter Wrapper Start -->
-                           <div class="widget-filter__wrapper widgetScroll">
-                              <ul class="widget-filter__list" id="languageList2">
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language1" name="sort-by">
-                                       <label for="language1">English <span>(21)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language2" name="sort-by">
-                                       <label for="language2">French <span>(7)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language3" name="sort-by">
-                                       <label for="language3">German <span>(5)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language4" name="sort-by">
-                                       <label for="language4">Italian <span>(6)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language5" name="sort-by">
-                                       <label for="language5">Finance <span>(8)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language6" name="sort-by">
-                                       <label for="language6">Japanese <span>(1)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language7" name="sort-by">
-                                       <label for="language7">Korean <span>(5)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language8" name="sort-by">
-                                       <label for="language8">Russian <span>(6)</span></label>
-                                    </div>
-                                 </li>
-                                 <li>
-                                    <!-- Widget Filter Item Start -->
-                                    <div class="widget-filter__item">
-                                       <input type="checkbox" id="language9" name="sort-by">
-                                       <label for="language9">Spanish <span>(5)</span></label>
-                                    </div>
-                                 </li>
-                              </ul>
-                           </div>
-                           <!-- Widget Filter Wrapper End -->
-                        </div>
-                        <!-- Widget Filter End -->
-                     </div>
-                    
-                   
-                  </div>
-               </div>
-            </div>
-            <!-- Filter Collapse End -->
             <div class="tab-content">
              <div class="tab-pane fade show active" id="grid">
     <div class="row gy-6"></div>
@@ -847,4 +574,39 @@
    </div>
 </div>
 <!-- Newsletter End -->
+
+<!-- Mobile Filter Drawer (body level for correct width & overlay) -->
+<div class="offcanvas offcanvas-end course-filter-offcanvas" tabindex="-1" id="courseFilterDrawer"
+   aria-labelledby="courseFilterDrawerLabel">
+   <div class="offcanvas-header course-filter-offcanvas__header border-bottom">
+      <h5 class="offcanvas-title" id="courseFilterDrawerLabel">Filters</h5>
+      <button type="button" class="course-filter-offcanvas__close" data-bs-dismiss="offcanvas" aria-label="Close">
+         <i class="fas fa-times" aria-hidden="true"></i>
+      </button>
+   </div>
+   <div class="offcanvas-body">
+      <div class="widget-filter">
+         <h4 class="widget-filter__title">Categories</h4>
+         <div class="widget-filter__wrapper widgetScroll">
+            <ul class="widget-filter__list" id="categoryList2"></ul>
+         </div>
+      </div>
+      <div class="widget-filter mt-4">
+         <h4 class="widget-filter__title">Language</h4>
+         <div class="widget-filter__wrapper widgetScroll">
+            <ul class="widget-filter__list" id="languageList2"></ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+   var drawer = document.getElementById('courseFilterDrawer');
+   if (drawer && drawer.parentElement !== document.body) {
+      document.body.appendChild(drawer);
+   }
+});
+</script>
+
 <?php include 'footer.php'; ?>

@@ -867,6 +867,118 @@ hr {
   border: 0;
 }
 
+.course-filter-offcanvas {
+  --bs-offcanvas-width: 50vw;
+  width: 50vw !important;
+  max-width: 50vw !important;
+  z-index: 1060;
+}
+
+body > .offcanvas-backdrop {
+  z-index: 1055;
+}
+
+.course-filter-offcanvas.showing,
+.course-filter-offcanvas.show {
+  width: 50vw !important;
+  max-width: 50vw !important;
+}
+
+.course-filter-offcanvas__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.course-filter-offcanvas__header .offcanvas-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #252525;
+}
+
+.course-filter-offcanvas__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.course-filter-offcanvas__close:hover,
+.course-filter-offcanvas__close:focus {
+  color: #000;
+  outline: none;
+}
+
+.course-filter-offcanvas .offcanvas-body {
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.course-filter-offcanvas .widget-filter__wrapper.widgetScroll {
+  max-height: none;
+  overflow: visible;
+}
+
+.course-filter-toggle::after {
+  display: none !important;
+}
+
+@media only screen and (max-width: 991px) {
+  .courses-section .col-lg-3 {
+    display: none;
+  }
+
+  .archive-filter-bars {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .archive-filter-bar {
+    margin-bottom: 14px;
+    width: 100%;
+  }
+
+  .archive-filter-bar:last-child {
+    margin-bottom: 22px;
+  }
+
+  .filter-bar-wrapper {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .filter-bar-wrapper > * {
+    margin-right: 0;
+  }
+
+  .filter-bar-wrapper .nav {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .filter-bar-wrapper .btn.course-filter-toggle {
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
 .filter-select .edumall-nice-select {
   padding-left: 10px;
   padding-right: 10px;
