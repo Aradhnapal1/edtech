@@ -18,20 +18,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const authtoken = localStorage.getItem('token');  // ← CHANGE THIS to match your storage
 
-    if (!authtoken) {
-        console.error("No auth token found. Please login first.");
-        container.innerHTML = '<div class="swiper-slide"><p class="text-center p-5 text-danger">Please login to view testimonials</p></div>';
-        return;
+    const headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json"        // optional but safe
+    };
+
+    if (authtoken) {
+        headers["Authorization"] = `Bearer ${authtoken}`;
     }
 
     try {
         const response = await fetch(API_URL, {
             method: "GET",                      // ← usually GET for listing
-            headers: {
-                "Authorization": `Bearer ${authtoken}`,   // ← exactly like your checkout example
-                "Accept": "application/json",
-                "Content-Type": "application/json"        // optional but safe
-            }
+            headers: headers
             // body: not needed for GET
         });
 
