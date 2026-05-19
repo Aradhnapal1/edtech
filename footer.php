@@ -51,7 +51,7 @@
                                  <li><a href="Index.php">Home</a></li>
                                  <li><a href="about.php">About</a></li>
                                  <li><a href="course.php">Courses</a></li>
-                                 <li><a href="blogs.php">Blogs</a></li>
+                                 <li><a href="blog.php">Blogs</a></li>
                                  
                                  <li><a href="#">Become A Teacher</a></li>
                               </ul>
