@@ -10,10 +10,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         checkAuthStatus();
         initLoginForm();
+        initLogout();
         
         // Failsafe for off-canvas mobile menus that might generate dynamically after DOM load
         setTimeout(checkAuthStatus, 500);
         setTimeout(checkAuthStatus, 2000);
+        setTimeout(initLogout, 500);
+        setTimeout(initLogout, 2000);
         // Removed initRegisterForm() as it's handled in separate script below
     });
 
@@ -81,12 +84,14 @@
                     console.error('Failed to decode token - treating as invalid');
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('userData');
+                localStorage.removeItem('token');
                     restoreAuthButtons();
                 }
             } catch (error) {
                 console.error('Error parsing token data:', error);
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('userData');
+            localStorage.removeItem('token');
                 restoreAuthButtons();
             }
         } else {
@@ -347,7 +352,7 @@
 
     // Initialize logout functionality
     function initLogout() {
-        const logoutBtns = document.querySelectorAll('.logoutBtn, #logoutBtn');
+        const logoutBtns = document.querySelectorAll('.logoutBtn, [id="logoutBtn"], [id="userlogoutBtn"]');
         logoutBtns.forEach(logoutBtn => {
             if (logoutBtn) {
                 logoutBtn.removeEventListener('click', handleLogout);
@@ -431,6 +436,7 @@
     function performLogout() {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userData');
+        localStorage.removeItem('token');
         
         console.log('User logged out');
         console.log('Token cleared from localStorage');

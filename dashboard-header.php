@@ -48,6 +48,42 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./js/user-profile.js"></script>
 <script src="./js/userorder.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const userLogoutBtn = document.getElementById("userlogoutBtn");
+    if (userLogoutBtn) {
+        userLogoutBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to logout?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, logout!',
+                cancelButtonText: 'No, cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userData');
+                    localStorage.removeItem('token');
+                    
+                    Swal.fire({
+                        title: 'Logged Out!',
+                        text: 'You have been successfully logged out.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.php';
+                    });
+                }
+            });
+        });
+    }
+});
+</script>
 
 </head>
 
@@ -180,7 +216,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="logoutBtn">
+                            <a href="#" id="userlogoutBtn">
                                 <i class="edumi edumi-sign-out"></i>
                                 <span class="text">Logout</span>
                             </a>
