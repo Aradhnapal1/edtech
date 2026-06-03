@@ -42,7 +42,7 @@
                   <div class="col-lg-8">
                      <div class="row gy-6">
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                            <!-- Footer Widget Start -->
                            <div class="footer-widget">
                               <h4 class="footer-widget__title">Quick Links</h4>
@@ -53,13 +53,13 @@
                                  <li><a href="course.php">Courses</a></li>
                                  <li><a href="blog.php">Blogs</a></li>
                                  
-                                 <li><a href="#">Become A Teacher</a></li>
+                             
                               </ul>
                            </div>
                            <!-- Footer Widget End -->
                         </div>
-                        <div class="col-sm-4">
-                           <!-- Footer Widget Start -->
+                        <!-- <div class="col-sm-4">
+                        
                            <div class="footer-widget">
                               <h4 class="footer-widget__title">Links</h4>
 
@@ -71,9 +71,9 @@
                                  <li><a href="career.php">Career</a></li>
                               </ul>
                            </div>
-                           <!-- Footer Widget End -->
-                        </div>
-                        <div class="col-sm-4">
+                         
+                        </div> -->
+                        <div class="col-sm-6">
                            <!-- Footer Widget Start -->
                            <div class="footer-widget">
                               <h4 class="footer-widget__title">Support</h4>
@@ -81,8 +81,7 @@
                               <ul class="footer-widget__link">
                                  <li><a href="./admin/documentation/Admin_Panel_Guide.html">Documentation</a></li>
                                  <li><a href="faqs.php">FAQs</a></li>
-                                 <li><a href="#">Forum</a></li>
-                                 <li><a href="#">Sitemap</a></li>
+                               
                               </ul>
                            </div>
                            <!-- Footer Widget End -->

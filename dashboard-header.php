@@ -208,27 +208,7 @@
         </div>
         <!-- Dashboard Menu Close End -->
 
-        <!-- Dashboard Menu Content Start -->
-        <div class="dashboard-menu__content">
-            <div class="dashboard-menu__image">
-                <img src="assets/images/canvas-menu-image.png" alt="Images" width="984" height="692">
-            </div>
-            <div class="dashboard-menu__main-menu">
-                <ul class="dashboard-menu__menu-link">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Courses</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <div class="dashboard-menu__search">
-                    <form action="#">
-                        <input type="text" placeholder="Search…">
-                        <button class="search-btn"><i class="far fa-search"></i></button>
-                    </form>
-                </div>
-            </div>
-        </div>
+       
         <!-- Dashboard Menu Content End -->
 
     </div>
@@ -294,9 +274,7 @@
                     <!-- <a class="btn btn-outline-primary" href="course.php"><i class="edumi edumi-content-writing"></i> <span class="text">Buy A New Course </span></a> -->
                 </div>
 
-                <div class="dashboard-header__toggle">
-                    <button class="btn btn-toggle"><i class="fas fa-bars"></i></button>
-                </div>
+                
 
             </div>
             <!-- Dashboard Header Wrapper End -->
