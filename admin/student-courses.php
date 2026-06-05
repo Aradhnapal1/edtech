@@ -13,30 +13,7 @@
             </ul>
         </div>
 
-        <div class="flex-align gap-8 flex-wrap">
-            <!-- Sort By -->
-            <div class="position-relative text-gray-500 flex-align gap-4 text-13">
-                <span class="text-inherit">Sort by: </span>
-                <div class="flex-align text-gray-500 text-13 border border-gray-100 rounded-4 ps-20 focus-border-main-600 bg-white">
-                    <span class="text-lg"><i class="ph ph-funnel-simple"></i></span>
-                    <select class="form-control ps-8 pe-20 py-16 border-0 text-inherit rounded-4 text-center">
-                        <option value="1" selected>Popular</option>
-                        <option value="2">Latest</option>
-                        <option value="3">Trending</option>
-                        <option value="4">Featured</option>
-                    </select>
-                </div>
-            </div>
-            <!-- Export Options -->
-            <div class="flex-align text-gray-500 text-13 border border-gray-100 rounded-4 ps-20 focus-border-main-600 bg-white">
-                <span class="text-lg"><i class="ph ph-layout"></i></span>
-                <select class="form-control ps-8 pe-20 py-16 border-0 text-inherit rounded-4 text-center" id="courseExportOptions">
-                    <option value="" selected disabled>Export</option>
-                    <option value="csv">CSV</option>
-                    <option value="json">JSON</option>
-                </select>
-            </div>
-        </div>
+       
     </div>
 
     <!-- Courses Table -->
