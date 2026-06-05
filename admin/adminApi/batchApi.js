@@ -271,8 +271,16 @@ function initEditBatch() {
     if (!token) return;
 
     // API → input[type=date] needs YYYY-MM-DD
-    const formatDateForInput = (dateStr) =>
-        dateStr ? dateStr.split(" ")[0].split("-").reverse().reverse().join("-") : "";
+    const formatDateForInput = (dateStr) => {
+        if (!dateStr) return "";
+        let datePart = dateStr.split("T")[0].split(" ")[0];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) return datePart; // Already YYYY-MM-DD
+        const parts = datePart.split("-");
+        if (parts.length === 3 && parts[2].length === 4) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`; // DD-MM-YYYY to YYYY-MM-DD
+        }
+        return datePart;
+    };
 
     (async () => {
         try {
@@ -313,13 +321,38 @@ function initEditBatch() {
                 });
 
             /* IMAGE PREVIEW */
-            const previewImg = document.getElementById("previewImg");
-            const imagePreview = document.getElementById("imagePreview");
+            let imageUrl = '';
+            if (batch.batch_image) {
+                imageUrl = batch.batch_image.startsWith('http') ? batch.batch_image : `${DOMAIN}/${batch.batch_image.replace(/^\/+/, '')}`;
+            }
 
-            if (batch.batch_image && previewImg) {
-                previewImg.src =  batch.batch_image;
-                previewImg.style.display = "block";
-                if (imagePreview) imagePreview.style.display = "block";
+            if (imageUrl) {
+                let previewWrapper = document.getElementById('previewWrapper');
+                const fileInput = document.getElementById('fileUpload-2');
+                const fileUploadDiv = fileInput ? fileInput.closest('.fileUpload') : document.getElementById('fileUpload');
+
+                if (!previewWrapper && fileUploadDiv) {
+                    fileUploadDiv.insertAdjacentHTML('beforeend', `
+                        <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <img id="previewImg" src="${imageUrl}" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                            <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                        </div>
+                    `);
+                    
+                    document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        document.getElementById('previewWrapper').style.display = 'none';
+                        if (fileInput) fileInput.value = '';
+                    });
+                } else if (previewWrapper) {
+                    const previewImg = document.getElementById('previewImg');
+                    if (previewImg) previewImg.src = imageUrl;
+                    previewWrapper.style.display = 'flex';
+                }
+            } else {
+                let previewWrapper = document.getElementById('previewWrapper');
+                if (previewWrapper) previewWrapper.style.display = 'none';
             }
 
             if (editBtn) editBtn.innerText = "Update Batch";
@@ -344,19 +377,40 @@ function initBatchImagePreview() {
     const fileInput = document.getElementById("fileUpload-2");
     if (!fileInput) return;
 
-    fileInput.addEventListener("change", function () {
-        const file = this.files[0];
-        const previewImg = document.getElementById("previewImg");
-        const imagePreview = document.getElementById("imagePreview");
+    fileInput.addEventListener("change", function (event) {
+        const chosenFile = event.target.files[0];
+        let previewWrapper = document.getElementById('previewWrapper');
+        const fileUploadDiv = fileInput.closest('.fileUpload') || document.getElementById('fileUpload');
 
-        if (file && previewImg) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewImg.src = e.target.result;
-                previewImg.style.display = "block";
-                if (imagePreview) imagePreview.style.display = "block";
-            };
-            reader.readAsDataURL(file);
+        if (chosenFile) {
+            if (!previewWrapper && fileUploadDiv) {
+                fileUploadDiv.insertAdjacentHTML('beforeend', `
+                    <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                        <img id="previewImg" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                        <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                    </div>
+                `);
+                previewWrapper = document.getElementById('previewWrapper');
+                
+                document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (previewWrapper) previewWrapper.style.display = 'none';
+                    if (fileInput) fileInput.value = '';
+                });
+            }
+            
+            const previewImage = document.getElementById('previewImg');
+            if (previewImage) {
+                const fileReader = new FileReader();
+                fileReader.onload = function(loadEvent) {
+                    previewImage.src = loadEvent.target.result;
+                    if (previewWrapper) previewWrapper.style.display = 'flex';
+                };
+                fileReader.readAsDataURL(chosenFile);
+            }
+        } else if (!chosenFile && previewWrapper) {
+            previewWrapper.style.display = 'none';
         }
     });
 }
