@@ -78,12 +78,11 @@ function displayFacultyList(facultyList = window.facultyListArray, page = 1) {
 
     pageFaculties.forEach((facultyItem, itemIndex) => {
         let imageUrl = 'assets/images/thumbs/facultyTable-img1.png';
-        if (typeof facultyItem.profileImage === 'string' && facultyItem.profileImage) {
-            imageUrl = facultyItem.profileImage.startsWith('http') ? facultyItem.profileImage :  facultyItem.profileImage;
-        } else if (facultyItem.profileImage && facultyItem.profileImage.url) {
-            imageUrl =  facultyItem.profileImage.url;
-        } else if (typeof facultyItem.image === 'string' && facultyItem.image) {
-            imageUrl = facultyItem.image.startsWith('http') ? facultyItem.image :  facultyItem.image;
+        const rawImg = facultyItem.profileImage || facultyItem.profile_image || facultyItem.image || facultyItem['profile_image'];
+        if (typeof rawImg === 'string' && rawImg) {
+            imageUrl = rawImg.startsWith('http') ? rawImg : baseDomain + '/' + rawImg.replace(/^\/+/, '');
+        } else if (rawImg && rawImg.url) {
+            imageUrl = rawImg.url;
         }
 
         tableBody.innerHTML += `
@@ -229,7 +228,7 @@ async function createNewFaculty() {
     const securePass = document.getElementById("facultyPassword")?.value.trim();
     const activeStatus = document.getElementById("statusToggle")?.checked;
 
-    const imageSelector = document.querySelector("#fileUpload input[type='file']");
+    const imageSelector = document.querySelector("#fileUploade input[type='file']") || document.querySelector("#fileUpload input[type='file']") || document.querySelector("input[type='file']");
     const selectedImage = imageSelector?.files[0];
 
     if (!givenName || !familyName || !contactEmail || !contactPhone || !selectedImage) {
@@ -257,8 +256,10 @@ async function createNewFaculty() {
     uploadPayload.append("experience", workYears || '');
     uploadPayload.append("specialization", expertArea || '');
     uploadPayload.append("password", securePass || '');
-    uploadPayload.append("profileImage", selectedImage);
-    uploadPayload.append("status", activeStatus ? "1" : "0");
+    uploadPayload.append("profile_image", selectedImage);
+    // uploadPayload.append("profile_image", selectedImage); // Common variation for create endpoints
+    // uploadPayload.append("image", selectedImage); // Another common fallback
+    uploadPayload.append("status", activeStatus ? "true" : "false");
 
     for (let [formKey, formValue] of uploadPayload.entries()) {
         console.log(formKey, formValue);
@@ -307,6 +308,8 @@ async function createNewFaculty() {
             imageSelector.value = "";
             const previewImage = document.getElementById("previewImg");
             const previewContainer = document.getElementById("imagePreview");
+            const previewWrapper = document.getElementById("previewWrapper");
+            if (previewWrapper) previewWrapper.style.display = "none";
             if (previewImage) previewImage.style.display = "none";
             if (previewContainer) previewContainer.style.display = "none";
 
@@ -415,7 +418,7 @@ async function applyFacultyChanges(facultyId) {
     const securePass = document.getElementById("facultyPassword")?.value.trim();
     const activeStatus = document.getElementById("statusToggle")?.checked;
 
-    const imageSelector = document.querySelector("#fileUploade input[type='file']");
+    const imageSelector = document.querySelector("#fileUploade input[type='file']") || document.querySelector("#fileUpload input[type='file']") || document.querySelector("input[type='file']");
     const selectedImage = imageSelector?.files[0];
 
     if (!givenName || !familyName || !contactEmail || !contactPhone) {
@@ -536,35 +539,52 @@ function setupModifyFacultyHandler() {
             // Display current profile image
             const previewContainer = document.getElementById('imagePreview');
             const previewImage = document.getElementById('previewImg');
-            const uploadLabel = document.querySelector('#fileUpload label');
 
             let imageUrl = '';
-            if (typeof targetFaculty.profileImage === 'string' && targetFaculty.profileImage) {
-                imageUrl = targetFaculty.profileImage.startsWith('http') ? targetFaculty.profileImage :  targetFaculty.profileImage;
-            } else if (targetFaculty.profileImage && targetFaculty.profileImage.url) {
-                imageUrl =  targetFaculty.profileImage.url;
-            } else if (typeof targetFaculty.image === 'string' && targetFaculty.image) {
-                imageUrl = targetFaculty.image.startsWith('http') ? targetFaculty.image :  targetFaculty.image;
+            const rawImage = targetFaculty.profileImage || targetFaculty.profile_image || targetFaculty.image;
+            if (typeof rawImage === 'string' && rawImage) {
+                imageUrl = rawImage.startsWith('http') ? rawImage : baseDomain + '/' + rawImage.replace(/^\/+/, '');
+            } else if (rawImage && rawImage.url) {
+                imageUrl = rawImage.url;
             }
 
-            if (imageUrl && previewImage) {
-                
-                previewImage.src = imageUrl;
-                previewImage.style.display = 'block';
+            if (imageUrl) {
+                let previewWrapper = document.getElementById('previewWrapper');
+                const fileUploadDiv = document.getElementById('fileUploade') || document.getElementById('fileUpload');
+
+                if (!previewWrapper && fileUploadDiv) {
+                    let oldPreview = document.getElementById('previewImg');
+                    if (oldPreview && oldPreview.parentElement !== fileUploadDiv) {
+                        oldPreview.style.display = 'none';
+                    }
+
+                    fileUploadDiv.insertAdjacentHTML('beforeend', `
+                        <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0;  height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center ; width: 100%;">
+                            <img id="previewImg" src="${imageUrl}" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                            <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                        </div>
+                    `);
+                    
+                    document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        document.getElementById('previewWrapper').style.display = 'none';
+                        const imageInput = document.querySelector('#fileUploade input[type="file"]') || document.querySelector('#fileUpload input[type="file"]') || document.querySelector('input[type="file"]');
+                        if(imageInput) imageInput.value = '';
+                    });
+                } else if (previewWrapper) {
+                    document.getElementById('previewImg').src = imageUrl;
+                    previewWrapper.style.display = 'flex';
+                }
 
                 if (previewContainer) {
                     previewContainer.style.display = 'block';
                 }
-
-                if (uploadLabel) {
-                    uploadLabel.innerText = "Change Image";
-                }
             } else {
+                let previewWrapper = document.getElementById('previewWrapper');
+                if (previewWrapper) previewWrapper.style.display = 'none';
                 if (previewImage) previewImage.style.display = 'none';
                 if (previewContainer) previewContainer.style.display = 'none';
-                if (uploadLabel) {
-                    uploadLabel.innerText = "Upload Image";
-                }
             }
 
             if (updateBtn) updateBtn.innerText = 'Update Faculty';
@@ -584,24 +604,50 @@ function setupModifyFacultyHandler() {
 
 // Image preview on selection for create and modify pages
 function setupImagePreviewHandler() {
-    const imageInput = document.querySelector('#fileUpload input[type="file"]');
+    const imageInput = document.querySelector('#fileUploade input[type="file"]') || document.querySelector('#fileUpload input[type="file"]') || document.querySelector('input[type="file"]');
     if (!imageInput) return;
 
     imageInput.addEventListener('change', function(event) {
         const chosenFile = event.target.files[0];
-        const previewImage = document.getElementById('previewImg');
+        let previewWrapper = document.getElementById('previewWrapper');
         const previewContainer = document.getElementById('imagePreview');
+        const fileUploadDiv = document.getElementById('fileUploade') || document.getElementById('fileUpload');
 
-        if (chosenFile && previewImage) {
-            const fileReader = new FileReader();
-            fileReader.onload = function(loadEvent) {
-                previewImage.src = loadEvent.target.result;
-                previewImage.style.display = 'block';
-                if (previewContainer) previewContainer.style.display = 'block';
-            };
-            fileReader.readAsDataURL(chosenFile);
-        } else if (!chosenFile && previewImage) {
-            previewImage.style.display = 'none';
+        if (chosenFile) {
+            if (!previewWrapper && fileUploadDiv) {
+                let oldPreview = document.getElementById('previewImg');
+                if (oldPreview && oldPreview.parentElement !== fileUploadDiv) {
+                    oldPreview.style.display = 'none';
+                }
+
+                fileUploadDiv.insertAdjacentHTML('beforeend', `
+                    <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                        <img id="previewImg" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                        <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                    </div>
+                `);
+                previewWrapper = document.getElementById('previewWrapper');
+                
+                document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.getElementById('previewWrapper').style.display = 'none';
+                    if(imageInput) imageInput.value = '';
+                });
+            }
+            
+            const previewImage = document.getElementById('previewImg');
+            if (previewImage) {
+                const fileReader = new FileReader();
+                fileReader.onload = function(loadEvent) {
+                    previewImage.src = loadEvent.target.result;
+                    if(previewWrapper) previewWrapper.style.display = 'flex';
+                    if (previewContainer) previewContainer.style.display = 'block';
+                };
+                fileReader.readAsDataURL(chosenFile);
+            }
+        } else if (!chosenFile && previewWrapper) {
+            previewWrapper.style.display = 'none';
             if (previewContainer) previewContainer.style.display = 'none';
         }
     });

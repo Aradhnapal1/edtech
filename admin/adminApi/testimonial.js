@@ -299,27 +299,41 @@ function initEditTestimonial() {
                                        testimonial.is_active === "1";
             }
 
-            // Show existing image (same as blog)
-            const imagePreview = document.getElementById('imagePreview');
-            const previewImg   = document.getElementById('previewImg');
-            const fileUploadLabel = document.querySelector('#fileUpload label');
+            // Show existing image
+            let imageUrl = '';
+            if (testimonial.image) {
+                imageUrl = testimonial.image.startsWith('http') ? testimonial.image : `https://edtech.colaborazia.com/${testimonial.image.replace(/^\/+/, '')}`;
+            }
 
-            if (testimonial.image && previewImg) {
-                const fullImageUrl =  testimonial.image;
-                
-                previewImg.src = fullImageUrl;
-                previewImg.style.display = 'block';
+            if (imageUrl) {
+                let previewWrapper = document.getElementById('previewWrapper');
+                const fileUploadDiv = document.getElementById('fileUpload');
 
-                if (imagePreview) {
-                    imagePreview.style.display = 'block';
-                }
-
-                if (fileUploadLabel) {
-                    fileUploadLabel.innerText = "Change Image";
+                if (!previewWrapper && fileUploadDiv) {
+                    fileUploadDiv.insertAdjacentHTML('beforeend', `
+                        <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <img id="previewImg" src="${imageUrl}" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                            <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                        </div>
+                    `);
+                    
+                    document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        document.getElementById('previewWrapper').style.display = 'none';
+                        const imageInput = document.querySelector('#fileUpload input[type="file"]');
+                        if(imageInput) imageInput.value = '';
+                    });
+                } else if (previewWrapper) {
+                    const previewImg = document.getElementById('previewImg');
+                    if (previewImg) previewImg.src = imageUrl;
+                    previewWrapper.style.display = 'flex';
                 }
             } else {
-                if (previewImg) previewImg.style.display = 'none';
-                if (imagePreview) imagePreview.style.display = 'none';
+                let previewWrapper = document.getElementById('previewWrapper');
+                if (previewWrapper) {
+                    previewWrapper.style.display = 'none';
+                }
             }
 
             // Change button text
@@ -415,25 +429,43 @@ async function updateTestimonial(id) {
 
 // New: Live preview when user selects a new image (same as blog)
 function initImagePreviewOnChange() {
-    const fileInput = document.querySelector('#fileUpload input[type="file"]');
-    if (!fileInput) return;
+    const imageInput = document.querySelector('#fileUpload input[type="file"]');
+    if (!imageInput) return;
 
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        const previewImg = document.getElementById('previewImg');
-        const imagePreview = document.getElementById('imagePreview');
+    imageInput.addEventListener('change', function(event) {
+        const chosenFile = event.target.files[0];
+        let previewWrapper = document.getElementById('previewWrapper');
+        const fileUploadDiv = document.getElementById('fileUpload');
 
-        if (file && previewImg) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                previewImg.src = event.target.result;
-                previewImg.style.display = 'block';
-                if (imagePreview) imagePreview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else if (!file && previewImg) {
-            previewImg.style.display = 'none';
-            if (imagePreview) imagePreview.style.display = 'none';
+        if (chosenFile) {
+            if (!previewWrapper && fileUploadDiv) {
+                fileUploadDiv.insertAdjacentHTML('beforeend', `
+                    <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                        <img id="previewImg" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                        <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                    </div>
+                `);
+                previewWrapper = document.getElementById('previewWrapper');
+                
+                document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (previewWrapper) previewWrapper.style.display = 'none';
+                    if(imageInput) imageInput.value = '';
+                });
+            }
+            
+            const previewImage = document.getElementById('previewImg');
+            if (previewImage) {
+                const fileReader = new FileReader();
+                fileReader.onload = function(loadEvent) {
+                    previewImage.src = loadEvent.target.result;
+                    if(previewWrapper) previewWrapper.style.display = 'flex';
+                };
+                fileReader.readAsDataURL(chosenFile);
+            }
+        } else if (!chosenFile && previewWrapper) {
+            previewWrapper.style.display = 'none';
         }
     });
 }
