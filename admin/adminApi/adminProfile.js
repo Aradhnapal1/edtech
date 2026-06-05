@@ -53,63 +53,104 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("userEmail").innerText = email || "Email not available";
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-document.getElementById("addAdmin").addEventListener("click", async function (e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
 
-  // Get input values
-  const firstname = document.getElementById("fnameadmin").value.trim();
-  const lastname  = document.getElementById("lnameadmin").value.trim();
-  const email     = document.getElementById("emailadmin").value.trim();
-  const phone     = document.getElementById("phoneadmin").value.trim();
-  const password  = document.getElementById("current-password").value.trim();
-const roleSelect = document.getElementById("roleadmin");
-const role = roleSelect.options[roleSelect.selectedIndex].text;
+    const addAdminBtn = document.getElementById("addAdmin");
 
-  // Validation
-  if (!firstname || !lastname || !email || !phone || !password || !role) {
-    Swal.fire("Error", "All fields are required", "error");
-    return;
-  }
-
-  // Payload
-  const payload = {
-    firstname: firstname,
-    lastname: lastname,
-    email: email,
-    phone: phone,
-    password: password,
-    role: role   // 1 = ADMIN, 2 = SUPERADMIN
-  };
-
-  try {
-    const response = await fetch("https://edtech.colaborazia.com/add-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      Swal.fire({
-        icon: "success",
-        title: "Admin Added Successfully",
-        text: result.message || "New admin has been added",
-        confirmButtonColor: "#3085d6"
-      });
-
-      // Reset form
-      document.querySelector("form")?.reset();
-    } else {
-      Swal.fire("Error", result.message || "Something went wrong", "error");
+    if (!addAdminBtn) {
+        console.error("Add Admin button not found");
+        return;
     }
 
-  } catch (error) {
-    console.error(error);
-    Swal.fire("Error", "Server not responding", "error");
-  }
-});
+    addAdminBtn.addEventListener("click", async function (e) {
+
+        e.preventDefault();
+
+        // Get Values
+        const firstname = document.getElementById("fnameadmin").value.trim();
+        const lastname = document.getElementById("lnameadmin").value.trim();
+        const email = document.getElementById("emailadmin").value.trim();
+        const phone = document.getElementById("phoneadmin").value.trim();
+        const password = document.getElementById("current-password").value.trim();
+        const role = document.getElementById("roleadmin").selectedOptions[0]?.text || "";
+
+        // Validation
+        if (!firstname || !lastname || !email || !phone || !password || !role) {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "All fields are required"
+            });
+            return;
+        }
+
+        // Disable Button
+        addAdminBtn.disabled = true;
+        addAdminBtn.innerText = "Saving...";
+
+        try {
+
+            // FormData (same as Postman)
+            const formData = new FormData();
+
+            formData.append("firstname", firstname);
+            formData.append("lastname", lastname);
+            formData.append("email", email);
+            formData.append("phone", phone);
+            formData.append("password", password);
+            formData.append("role", role);
+
+            const response = await fetch(
+                "https://edtech.colaborazia.com/add-user",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const result = await response.json();
+
+            console.log("API Response:", result);
+
+            if (response.ok && result.success) {
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: result.message || "User created successfully",
+                    confirmButtonColor: "#3085d6"
+                });
+
+                // Reset Form
+                document.querySelector("form").reset();
+
+            } else {
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: result.message || "Failed to create user"
+                });
+
+            }
+
+        } catch (error) {
+
+            console.error("Add User Error:", error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Server Error",
+                text: "Unable to connect to server"
+            });
+
+        } finally {
+
+            addAdminBtn.disabled = false;
+            addAdminBtn.innerText = "Save Changes";
+
+        }
+
+    });
+
 });
