@@ -25,7 +25,7 @@
                                         <i class="edumi edumi-open-book"></i>
                                     </div>
                                     <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value">19</div>
+                                        <div class="dashboard-info__card-value" id="enrolledCoursesCount">0</div>
                                         <div class="dashboard-info__card-heading">Enrolled Courses</div>
                                     </div>
                                 </a>
@@ -40,7 +40,7 @@
                                         <i class="edumi edumi-streaming"></i>
                                     </div>
                                     <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value">0</div>
+                                        <div class="dashboard-info__card-value" id="activeCoursesCount">0</div>
                                         <div class="dashboard-info__card-heading">Active Courses</div>
                                     </div>
                                 </a>
@@ -55,58 +55,14 @@
                                         <i class="edumi edumi-correct"></i>
                                     </div>
                                     <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value">27</div>
+                                        <div class="dashboard-info__card-value" id="completedCoursesCount">0</div>
                                         <div class="dashboard-info__card-heading">Completed Courses</div>
                                     </div>
                                 </a>
                             </div>
                             <!-- Dashboard Info Card End -->
                         </div>
-                        <!-- <div class="col-md-4 col-sm-6">
-                           
-                            <div class="dashboard-info__card">
-                                <div class="dashboard-info__card-box">
-                                    <div class="dashboard-info__card-icon icon-color-04">
-                                        <i class="edumi edumi-group"></i>
-                                    </div>
-                                    <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value">146</div>
-                                        <div class="dashboard-info__card-heading">Total Students</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                    
-                            <div class="dashboard-info__card">
-                                <div class="dashboard-info__card-box">
-                                    <div class="dashboard-info__card-icon icon-color-05">
-                                        <i class="edumi edumi-user-support"></i>
-                                    </div>
-                                    <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value">1</div>
-                                        <div class="dashboard-info__card-heading">Total Courses</div>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                           
-                            <div class="dashboard-info__card">
-                                <div class="dashboard-info__card-box">
-                                    <div class="dashboard-info__card-icon icon-color-06">
-                                        <i class="edumi edumi-coin"></i>
-                                    </div>
-                                    <div class="dashboard-info__card-content">
-                                        <div class="dashboard-info__card-value"><span class="sale-price">$383.<small class="separator">01</small></span></div>
-                                        <div class="dashboard-info__card-heading">Total Earnings</div>
-                                    </div>
-                                </div>
-                            </div>
-                          
-                        </div> -->
+                        
                     </div>
                 </div>
               
@@ -120,3 +76,35 @@
     </main>
     <!-- Dashboard Main Wrapper End -->
 
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            // Retrieve token from local storage
+            const token =  localStorage.getItem("authToken");
+            if (!token) return;
+
+            try {
+                const response = await fetch("https://edtech.colaborazia.com/api/user/dashboard", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.success && data.dashboard && data.dashboard.stats) {
+                        const stats = data.dashboard.stats;
+                        document.getElementById("enrolledCoursesCount").innerText = stats.enrolledCourses || 0;
+                        document.getElementById("activeCoursesCount").innerText = stats.activeCourses || 0;
+                        document.getElementById("completedCoursesCount").innerText = stats.completedCourses || 0;
+                    }
+                } else {
+                    console.error("Failed to load dashboard data");
+                }
+            } catch (error) {
+                console.error("Error fetching dashboard details:", error);
+            }
+        });
+    </script>
