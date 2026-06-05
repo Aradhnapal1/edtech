@@ -41,57 +41,59 @@ const fileNameDisplay = document.getElementById("fileName");
 const uploadPrompt = document.getElementById("uploadPrompt");
 const removeImageBtn = document.getElementById("removeImage");
 
-function resetUploadUI() {
-  if (previewContainer) previewContainer.style.display = "none";
-  if (uploadPrompt) uploadPrompt.style.display = "block";
-  if (imagePreview) imagePreview.src = "";
-  if (fileNameDisplay) fileNameDisplay.textContent = "";
-}
-
 if (fileUploadWrapper && fileUploadInput) {
-  fileUploadWrapper.addEventListener("click", (e) => {
-    if (e.target.id === "removeImage" || e.target.closest("#removeImage")) return;
-    fileUploadInput.click();
-  });
+  fileUploadInput.addEventListener("change", function (event) {
+    const chosenFile = event.target.files[0];
+    let previewWrapper = document.getElementById('previewWrapper');
+    const fileUploadDiv = fileUploadInput.closest('.fileUpload') || document.getElementById('fileUpload');
 
-  fileUploadInput.addEventListener("change", function () {
-    const file = this.files[0];
-    if (!file) {
-      resetUploadUI();
+    if (!chosenFile) {
+      if (previewWrapper) previewWrapper.style.display = 'none';
       return;
     }
 
     const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-    if (!validTypes.includes(file.type)) {
+    if (!validTypes.includes(chosenFile.type)) {
       alert("Invalid file type. Please upload PNG, JPG, JPEG, or WEBP only.");
       this.value = "";
-      resetUploadUI();
+      if (previewWrapper) previewWrapper.style.display = 'none';
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (chosenFile.size > 5 * 1024 * 1024) {
       alert("Image too large. Maximum 5MB allowed.");
       this.value = "";
-      resetUploadUI();
+      if (previewWrapper) previewWrapper.style.display = 'none';
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (imagePreview) imagePreview.src = e.target.result;
-      if (fileNameDisplay) fileNameDisplay.textContent = file.name;
-      if (previewContainer) previewContainer.style.display = "block";
-      if (uploadPrompt) uploadPrompt.style.display = "none";
-    };
-    reader.readAsDataURL(file);
+    if (!previewWrapper && fileUploadDiv) {
+        fileUploadDiv.insertAdjacentHTML('beforeend', `
+            <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <img id="previewImg" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+            </div>
+        `);
+        previewWrapper = document.getElementById('previewWrapper');
+        
+        document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (previewWrapper) previewWrapper.style.display = 'none';
+            if (fileUploadInput) fileUploadInput.value = '';
+        });
+    }
+    
+    const previewImage = document.getElementById('previewImg');
+    if (previewImage) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(loadEvent) {
+            previewImage.src = loadEvent.target.result;
+            if (previewWrapper) previewWrapper.style.display = 'flex';
+        };
+        fileReader.readAsDataURL(chosenFile);
+    }
   });
-
-  if (removeImageBtn) {
-    removeImageBtn.addEventListener("click", () => {
-      fileUploadInput.value = "";
-      resetUploadUI();
-    });
-  }
 }
 
 // ====================== LOAD DROPDOWNS ======================
@@ -225,6 +227,8 @@ async function addCourse() {
     }
 
     if (response.ok && (result.success || result.status === true || result.message?.toLowerCase().includes("added"))) {
+          const previewWrapper = document.getElementById('previewWrapper');
+          if (previewWrapper) previewWrapper.style.display = 'none';
           Swal.fire({
             icon: "success",
             title: "Success",
@@ -513,10 +517,38 @@ async function initEditCourse() {
     }
 
     // Image preview (existing)
-    if (course.course_image && imagePreview && previewContainer && uploadPrompt) {
-      imagePreview.src = `${course.course_image}`;
-      previewContainer.style.display = "block";
-      uploadPrompt.style.display = "none";
+    let imageUrl = '';
+    if (course.course_image) {
+        imageUrl = course.course_image.startsWith('http') ? course.course_image : `https://edtech.colaborazia.com/${course.course_image.replace(/^\/+/, '')}`;
+    }
+
+    if (imageUrl) {
+        let previewWrapper = document.getElementById('previewWrapper');
+        const fileInput = document.querySelector("#fileUpload input[type='file']") || document.getElementById("fileUpload") || document.querySelector('input[type="file"]');
+        const fileUploadDiv = fileInput ? fileInput.closest('.fileUpload') : document.getElementById('fileUpload');
+
+        if (!previewWrapper && fileUploadDiv) {
+            fileUploadDiv.insertAdjacentHTML('beforeend', `
+                <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <img id="previewImg" src="${imageUrl}" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
+                    <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
+                </div>
+            `);
+            
+            document.getElementById('removePreviewBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                document.getElementById('previewWrapper').style.display = 'none';
+                if (fileInput) fileInput.value = '';
+            });
+        } else if (previewWrapper) {
+            const previewImg = document.getElementById('previewImg');
+            if (previewImg) previewImg.src = imageUrl;
+            previewWrapper.style.display = 'flex';
+        }
+    } else {
+        let previewWrapper = document.getElementById('previewWrapper');
+        if (previewWrapper) previewWrapper.style.display = 'none';
     }
 
     // Button setup
