@@ -621,7 +621,7 @@ function setupImagePreviewHandler() {
                 }
 
                 fileUploadDiv.insertAdjacentHTML('beforeend', `
-                    <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: none; align-items: center; justify-content: center;">
+                    <div id="previewWrapper" class="image-upload__boxInner" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                         <img id="previewImg" class="image-upload__image" style="max-width: 85%; max-height: 85%; object-fit: contain; border-radius: 8px;">
                         <button type="button" id="removePreviewBtn" class="image-upload__deleteBtn" style="position: absolute; top: 5px; right: 5px; background: #dc3545; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; padding: 0;"><i class="ph ph-x"></i></button>
                     </div>
