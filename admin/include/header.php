@@ -19,6 +19,24 @@
     <script src="adminApi/changePassword.js"></script>
     <script src="adminApi/dashboard.js"></script>
 
+    <style>
+        #previewWrapper{
+  position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+
+}
+    </style>
+
     <!-- icon -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
