@@ -75,7 +75,7 @@ async function loadDashboardStats() {
         const report = result.report;
 
         // ===================== STATS =====================
-        document.getElementById("totalCourses").innerText = report.purchasedCourses.total;
+        document.getElementById("totalCourses").innerText = report.courses.total;
         document.getElementById("totalOrders").innerText = report.orders.total;
         document.getElementById("totalBatches").innerText = report.batches.total;
         document.getElementById("totalUsers").innerText = report.students.total;
